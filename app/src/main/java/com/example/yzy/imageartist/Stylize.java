@@ -3,7 +3,7 @@ package com.example.yzy.imageartist;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class stylize extends AppCompatActivity {
+public class Stylize extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

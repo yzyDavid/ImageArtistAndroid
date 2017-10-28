@@ -8,47 +8,47 @@ import android.widget.Button
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mButton1: Button
-    private lateinit var mButton2: Button
-    private lateinit var mButton3: Button
-    private lateinit var mButton4: Button
-    private lateinit var mButton5: FloatingActionButton
+    private lateinit var mButtonStylize: Button
+    private lateinit var mButtonJoint: Button
+    private lateinit var mButtonSticker: Button
+    private lateinit var mButtonFrame: Button
+    private lateinit var mButtonSettings: FloatingActionButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        mButton1 = findViewById<Button>(R.id.stylize_button) as Button
-        mButton1.setOnClickListener {
+        mButtonStylize = findViewById<Button>(R.id.stylize_button) as Button
+        mButtonStylize.setOnClickListener {
             val intent = Intent()
-            intent.setClass(this, stylize::class.java)
+            intent.setClass(this, Stylize::class.java)
             startActivity(intent)
         }
 
-        mButton2 = findViewById<Button>(R.id.joint_button) as Button
-        mButton2.setOnClickListener {
+        mButtonJoint = findViewById<Button>(R.id.joint_button) as Button
+        mButtonJoint.setOnClickListener {
             val intent = Intent()
-            intent.setClass(this, joint::class.java)
+            intent.setClass(this, Joint::class.java)
             startActivity(intent)
         }
 
-        mButton3 = findViewById<Button>(R.id.sticker_button) as Button
-        mButton3.setOnClickListener {
+        mButtonSticker = findViewById<Button>(R.id.sticker_button) as Button
+        mButtonSticker.setOnClickListener {
             val intent = Intent()
-            intent.setClass(this, sticker::class.java)
+            intent.setClass(this, Sticker::class.java)
             startActivity(intent)
         }
 
-        mButton4 = findViewById<Button>(R.id.frame_button) as Button
-        mButton4.setOnClickListener {
+        mButtonFrame = findViewById<Button>(R.id.frame_button) as Button
+        mButtonFrame.setOnClickListener {
             val intent = Intent()
-            intent.setClass(this, frame::class.java)
+            intent.setClass(this, Frame::class.java)
             startActivity(intent)
         }
-        mButton5 = findViewById<FloatingActionButton>(R.id.setting_button) as FloatingActionButton
-        mButton5.setOnClickListener {
+        mButtonSettings = findViewById<FloatingActionButton>(R.id.setting_button) as FloatingActionButton
+        mButtonSettings.setOnClickListener {
             val intent = Intent()
-            intent.setClass(this, setting::class.java)
+            intent.setClass(this, Settings::class.java)
             startActivity(intent)
         }
 

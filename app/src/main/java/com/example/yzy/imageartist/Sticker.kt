@@ -3,7 +3,7 @@ package com.example.yzy.imageartist
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
-class sticker : AppCompatActivity() {
+class Sticker : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

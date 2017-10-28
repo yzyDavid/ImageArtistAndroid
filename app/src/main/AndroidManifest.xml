@@ -17,11 +17,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".stylize" />
-        <activity android:name=".joint" />
-        <activity android:name=".sticker" />
-        <activity android:name=".frame" />
-        <activity android:name=".setting" />
+        <activity android:name=".Stylize" />
+        <activity android:name=".Joint" />
+        <activity android:name=".Sticker" />
+        <activity android:name=".Frame" />
+        <activity android:name=".Settings" />
     </application>
 
 </manifest>

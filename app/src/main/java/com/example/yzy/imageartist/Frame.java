@@ -3,7 +3,7 @@ package com.example.yzy.imageartist;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class frame extends AppCompatActivity {
+public class Frame extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
