@@ -35,21 +35,21 @@
             android:layout_marginTop="20dp">
             <Button
                 android:id="@+id/stylize_button"
-                android:text="风格"
+                android:text="@string/stylize"
                 android:textSize="30dp"
                 android:layout_margin="10dp"
                 android:elevation="6dp"
                 android:background="@drawable/square_trans"/>
             <Button
                 android:id="@+id/joint_button"
-                android:text="拼图"
+                android:text="@string/joint"
                 android:textSize="30dp"
                 android:layout_margin="10dp"
                 android:elevation="6dp"
                 android:background="@drawable/square_trans"/>
             <Button
                 android:id="@+id/sticker_button"
-                android:text="贴纸"
+                android:text="@string/sticker"
                 android:textSize="30dp"
                 android:layout_margin="10dp"
                 android:layout_marginRight="16dp"
@@ -57,7 +57,7 @@
                 android:background="@drawable/square_trans"/>
             <Button
                 android:id="@+id/frame_button"
-                android:text="边框"
+                android:text="@string/frame"
                 android:textSize="30dp"
                 android:layout_margin="10dp"
                 android:elevation="6dp"
