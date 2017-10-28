@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.widget.Button
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var mButtonStylize: Button
     private lateinit var mButtonJoint: Button
@@ -17,40 +16,38 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        mButtonStylize = findViewById<Button>(R.id.stylize_button) as Button
+        mButtonStylize = findViewById(R.id.stylize_button)
         mButtonStylize.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, Stylize::class.java)
             startActivity(intent)
         }
 
-        mButtonJoint = findViewById<Button>(R.id.joint_button) as Button
+        mButtonJoint = findViewById(R.id.joint_button)
         mButtonJoint.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, Joint::class.java)
             startActivity(intent)
         }
 
-        mButtonSticker = findViewById<Button>(R.id.sticker_button) as Button
+        mButtonSticker = findViewById(R.id.sticker_button)
         mButtonSticker.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, Sticker::class.java)
             startActivity(intent)
         }
 
-        mButtonFrame = findViewById<Button>(R.id.frame_button) as Button
+        mButtonFrame = findViewById(R.id.frame_button)
         mButtonFrame.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, Frame::class.java)
             startActivity(intent)
         }
-        mButtonSettings = findViewById<FloatingActionButton>(R.id.setting_button) as FloatingActionButton
+        mButtonSettings = findViewById(R.id.setting_button)
         mButtonSettings.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, Settings::class.java)
             startActivity(intent)
         }
-
     }
 }
