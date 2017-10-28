@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.yzy.imageartist">
+    package="com.example.yzy.imageartist">
 
     <application
         android:allowBackup="true"
@@ -11,21 +11,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".stylize">
-        </activity>
-        <activity android:name=".joint">
-        </activity>
-        <activity android:name=".sticker">
-        </activity>
-        <activity android:name=".frame">
-        </activity>
-        <activity android:name=".setting">
-        </activity>
+
+        <activity android:name=".stylize" />
+        <activity android:name=".joint" />
+        <activity android:name=".sticker" />
+        <activity android:name=".frame" />
+        <activity android:name=".setting" />
     </application>
 
 </manifest>

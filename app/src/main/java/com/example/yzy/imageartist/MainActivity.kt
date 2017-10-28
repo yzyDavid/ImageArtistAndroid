@@ -5,50 +5,48 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.widget.Button
-import android.widget.TextView
-import org.jetbrains.anko.toast
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mbutton1: Button
-    private lateinit var mbutton2: Button
-    private lateinit var mbutton3: Button
-    private lateinit var mbutton4: Button
-    private lateinit var mbutton5: FloatingActionButton
+    private lateinit var mButton1: Button
+    private lateinit var mButton2: Button
+    private lateinit var mButton3: Button
+    private lateinit var mButton4: Button
+    private lateinit var mButton5: FloatingActionButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        mbutton1 = findViewById<Button>(R.id.stylize_button) as Button
-        mbutton1.setOnClickListener {
+        mButton1 = findViewById<Button>(R.id.stylize_button) as Button
+        mButton1.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, stylize::class.java)
             startActivity(intent)
         }
 
-        mbutton2 = findViewById<Button>(R.id.joint_button) as Button
-        mbutton2.setOnClickListener {
+        mButton2 = findViewById<Button>(R.id.joint_button) as Button
+        mButton2.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, joint::class.java)
             startActivity(intent)
         }
 
-        mbutton3 = findViewById<Button>(R.id.sticker_button) as Button
-        mbutton3.setOnClickListener {
+        mButton3 = findViewById<Button>(R.id.sticker_button) as Button
+        mButton3.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, sticker::class.java)
             startActivity(intent)
         }
 
-        mbutton4 = findViewById<Button>(R.id.frame_button) as Button
-        mbutton4.setOnClickListener {
+        mButton4 = findViewById<Button>(R.id.frame_button) as Button
+        mButton4.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, frame::class.java)
             startActivity(intent)
         }
-        mbutton5 = findViewById<FloatingActionButton>(R.id.setting_button) as FloatingActionButton
-        mbutton5.setOnClickListener {
+        mButton5 = findViewById<FloatingActionButton>(R.id.setting_button) as FloatingActionButton
+        mButton5.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, setting::class.java)
             startActivity(intent)
