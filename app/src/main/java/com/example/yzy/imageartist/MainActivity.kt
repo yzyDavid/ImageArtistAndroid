@@ -20,34 +20,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        mbutton1 = findViewById(R.id.stylize_button) as Button
+        mbutton1 = findViewById<Button>(R.id.stylize_button) as Button
         mbutton1.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, stylize::class.java)
             startActivity(intent)
         }
 
-        mbutton2 = findViewById(R.id.joint_button) as Button
+        mbutton2 = findViewById<Button>(R.id.joint_button) as Button
         mbutton2.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, joint::class.java)
             startActivity(intent)
         }
 
-        mbutton3 = findViewById(R.id.sticker_button) as Button
+        mbutton3 = findViewById<Button>(R.id.sticker_button) as Button
         mbutton3.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, sticker::class.java)
             startActivity(intent)
         }
 
-        mbutton4 = findViewById(R.id.frame_button) as Button
+        mbutton4 = findViewById<Button>(R.id.frame_button) as Button
         mbutton4.setOnClickListener {
             val intent = Intent()
             intent.setClass(this, frame::class.java)
             startActivity(intent)
         }
-        mbutton5 = findViewById(R.id.setting_button) as FloatingActionButton
+        mbutton5 = findViewById<FloatingActionButton>(R.id.setting_button) as FloatingActionButton
         mbutton5.setOnClickListener{
             val intent = Intent()
             intent.setClass(this,setting::class.java)
