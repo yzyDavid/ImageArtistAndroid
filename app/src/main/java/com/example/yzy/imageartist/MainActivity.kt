@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         mbutton5 = findViewById<FloatingActionButton>(R.id.setting_button) as FloatingActionButton
-        mbutton5.setOnClickListener{
+        mbutton5.setOnClickListener {
             val intent = Intent()
-            intent.setClass(this,setting::class.java)
+            intent.setClass(this, setting::class.java)
             startActivity(intent)
         }
 
