@@ -5,4 +5,6 @@
     <string name="sticker">贴纸</string>
     <string name="frame">边框</string>
     <string name="settings">设置</string>
+    <string name="camera">相机</string>
+    <string name="album">相册</string>
 </resources>
