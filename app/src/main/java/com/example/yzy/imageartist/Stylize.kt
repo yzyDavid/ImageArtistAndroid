@@ -3,11 +3,11 @@ package com.example.yzy.imageartist
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
-class Joint : AppCompatActivity() {
+class Stylize : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_joint)
-        title="拼图"
+        setContentView(R.layout.activity_stylize)
+        title="风格化"
     }
 }
