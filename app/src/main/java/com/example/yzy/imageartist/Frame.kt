@@ -26,8 +26,8 @@ import java.util.Locale
 import java.text.SimpleDateFormat
 
 class Frame : AppCompatActivity() {
-    val CAMERA: Int = 1
-    val PICTURE: Int = 0
+    private val CAMERA: Int = 1
+    private val PICTURE: Int = 0
     private lateinit var mTextCamera: TextView
     private lateinit var mTextAlbum: TextView
     lateinit var mImageView: ImageView
@@ -64,9 +64,9 @@ class Frame : AppCompatActivity() {
                 this.toast("SD card unmount")
                 return
             }
-            val dateformat: DateFormat = SimpleDateFormat("yyyyMMdd_hhmmss")
-            val name: String = dateformat.format(Calendar.getInstance(Locale.CHINA)) + "jpg"
-            val bundle: Bundle = data.getExtras()
+            val dateFormat: DateFormat = SimpleDateFormat("yyyyMMdd_hhmmss")
+            val name: String = dateFormat.format(Calendar.getInstance(Locale.CHINA)) + "jpg"
+            val bundle: Bundle = data.extras
             val bitmap: Bitmap = bundle.get("data") as Bitmap
             val file: File = File("/sdcard/pintu/")
             file.mkdirs()
@@ -78,12 +78,8 @@ class Frame : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                try {
-                    fout.flush()
-                    fout.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+                fout.flush()
+                fout.close()
             }
         }
     }
