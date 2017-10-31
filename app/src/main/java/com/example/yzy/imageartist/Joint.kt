@@ -8,6 +8,6 @@ class Joint : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_joint)
-        title="拼图"
+        this.setTitle(R.string.joint)
     }
 }

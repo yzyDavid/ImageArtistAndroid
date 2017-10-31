@@ -8,6 +8,6 @@ class Stylize : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stylize)
-        title="风格化"
+        this.setTitle(R.string.stylize)
     }
 }

@@ -8,6 +8,6 @@ class Sticker : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sticker)
-        title="贴纸"
+        this.setTitle(R.string.sticker)
     }
 }

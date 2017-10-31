@@ -24,12 +24,13 @@ import java.text.DateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.text.SimpleDateFormat
+
 class Frame : AppCompatActivity() {
     public var CAMERA: Int = 1
     public var PICTURE: Int = 0
     private lateinit var mTextCamera: TextView
     private lateinit var mTextAlbum: TextView
-    lateinit  var mImageView: ImageView
+    lateinit var mImageView: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frame)
@@ -40,64 +41,55 @@ class Frame : AppCompatActivity() {
             startActivityForResult(album, PICTURE)
         }
         mTextCamera = findViewById(R.id.camera_text)
-        mTextCamera.setOnClickListener{
+        mTextCamera.setOnClickListener {
             var camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(camera,CAMERA)
+            startActivityForResult(camera, CAMERA)
         }
     }
-         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-            if(requestCode== PICTURE && resultCode== Activity.RESULT_OK && null!=data)
-            {
-                var selectedImage:Uri = data.getData()
-                var filePathColumns = arrayOf(MediaStore.Images.Media.DATA)
-                var c: Cursor=this.getContentResolver().query(selectedImage,filePathColumns,null,null,null)
-                c.moveToFirst()
-                var columnIndex: Int =c.getColumnIndex(filePathColumns[0])
-                var picturePath: String=c.getString(columnIndex)
-                c.close()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICTURE && resultCode == Activity.RESULT_OK && null != data) {
+            var selectedImage: Uri = data.getData()
+            var filePathColumns = arrayOf(MediaStore.Images.Media.DATA)
+            var c: Cursor = this.getContentResolver().query(selectedImage, filePathColumns, null, null, null)
+            c.moveToFirst()
+            var columnIndex: Int = c.getColumnIndex(filePathColumns[0])
+            var picturePath: String = c.getString(columnIndex)
+            c.close()
+        } else if (requestCode == CAMERA && resultCode == Activity.RESULT_OK && null != data) {
+            var sdState: String = Environment.getExternalStorageState()
+            if (!sdState.equals(Environment.MEDIA_MOUNTED)) {
+                this.toast("SD card unmount")
+                return
             }
-             else if(requestCode==CAMERA && resultCode== Activity.RESULT_OK && null!=data)
-            {
-                var sdState: String=Environment.getExternalStorageState()
-                if(!sdState.equals(Environment.MEDIA_MOUNTED))
-                {
-                    this.toast("SD card unmount")
-                    return
-                }
-                var dateformat: DateFormat=SimpleDateFormat("yyyyMMdd_hhmmss")
-                var name: String=dateformat.format(Calendar.getInstance(Locale.CHINA))+"jpg"
-                var bundle: Bundle=data.getExtras()
-                var bitmap: Bitmap=bundle.get("data") as Bitmap
-                var file: File=File("/sdcard/pintu/")
-                file.mkdirs()
-                var filename: String=file.getPath()+name
-                var fout: FileOutputStream= FileOutputStream(filename)
+            var dateformat: DateFormat = SimpleDateFormat("yyyyMMdd_hhmmss")
+            var name: String = dateformat.format(Calendar.getInstance(Locale.CHINA)) + "jpg"
+            var bundle: Bundle = data.getExtras()
+            var bitmap: Bitmap = bundle.get("data") as Bitmap
+            var file: File = File("/sdcard/pintu/")
+            file.mkdirs()
+            var filename: String = file.getPath() + name
+            var fout: FileOutputStream = FileOutputStream(filename)
+            try {
+                fout = FileOutputStream(filename)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
                 try {
-                     fout = FileOutputStream(filename)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,fout)
-                }catch (e: Exception){
+                    fout.flush()
+                    fout.close()
+                } catch (e: IOException) {
                     e.printStackTrace()
                 }
-                finally {
-                    try {
-                        fout.flush()
-                        fout.close()
-                    }catch (e: IOException)
-                    {
-                        e.printStackTrace()
-                    }
-
-                }
 
             }
 
+        }
 
 
     }
-
-
-
 
 
 }

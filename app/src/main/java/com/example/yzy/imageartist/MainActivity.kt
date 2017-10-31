@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        this.setTitle(R.string.app_name)
         mButtonStylize = findViewById(R.id.stylize_button)
         mButtonStylize.setOnClickListener {
             val intent = Intent()
