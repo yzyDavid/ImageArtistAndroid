@@ -1,5 +1,5 @@
 package com.example.yzy.imageartist
 
 object Config {
-    val baseUrl = "http://zjuspc.yuzhenyun.me/api/"
+    val baseUrl = "https://cluster.yuzhenyun.me/api/"
 }
