@@ -7,4 +7,8 @@
     <string name="settings">设置</string>
     <string name="camera">相机</string>
     <string name="album">相册</string>
+    <string name="SelectFromCamera">拍照</string>
+    <string name="SelectFromAlbum">从相册中选择</string>
+    <string name="Cancle">取消</string>
+    <string name="SelectRule">点击任意位置选择图片</string>
 </resources>

@@ -15,6 +15,6 @@
         android:height="100dip"
         android:width="100dip"/>
     <solid
-        android:color="@color/grey"/>
+        android:color="@color/darkgrey"/>
 
 </shape>

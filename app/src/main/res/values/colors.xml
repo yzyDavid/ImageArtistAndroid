@@ -7,5 +7,6 @@
     <color name="white_transparent">#B0FFFFFF</color>
     <color name="pink">#FFCCCC</color>
     <color name="blue">#56abe4</color>
-    <color name="grey">#CCCCCC</color>
+    <color name="darkgrey">#808A87</color>
+    <color name="lightgrey">#DCDCDC</color>
 </resources>
