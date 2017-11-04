@@ -14,12 +14,7 @@ import retrofit2.Retrofit
 class Stylize : AppCompatActivity() {
 
     private lateinit var mButtonHello: Button
-    private val retrofit = Retrofit.Builder()
-            .baseUrl(Config.baseUrl)
-            .build()
-    private val service = retrofit.create(StylizeModel.StylizeService::class.java)
-    val call = service.getTest("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP))
-    private lateinit var hello: StylizeModel.Hello
+    private val stylizeModel = StylizeModel(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,19 +24,7 @@ class Stylize : AppCompatActivity() {
 
     fun stylizeShow(view: View) {
         mButtonHello.setOnClickListener {
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-                    hello.string = response!!.body()!!.string()
-                }
-
-                override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                    if (call!!.isCanceled) {
-
-                    } else {
-                        RuntimeException("No network")
-                    }
-                }
-            })
+            stylizeModel.getHello()
         }
     }
 }
