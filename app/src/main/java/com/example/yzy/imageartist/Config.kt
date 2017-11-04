@@ -1,5 +1,8 @@
 package com.example.yzy.imageartist
 
+import android.annotation.SuppressLint
+
 object Config {
-    val baseUrl = "https://cluster.yuzhenyun.me/api/"
+    @SuppressLint("AuthLeak")
+    val baseUrl = "https://minami:kotori@cluster.yuzhenyun.me/api/"
 }
