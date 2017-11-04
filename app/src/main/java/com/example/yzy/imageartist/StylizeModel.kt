@@ -34,15 +34,12 @@ class StylizeModel(private val activity: Editor) {
             .build()
     private val service = retrofit.create(StylizeService::class.java)
 
-    private lateinit var callHello: Call<ResponseBody>
-    private lateinit var callThemeColor: Call<ResponseBody>
-
     private lateinit var hello: Hello
     private lateinit var themeColorImage: ThemeColorImage
 
 
     fun getHello() {
-        callHello = service.getTest("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP))
+        val callHello = service.getTest("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP))
         callHello.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 hello.string = response!!.body()!!.string()
@@ -59,7 +56,7 @@ class StylizeModel(private val activity: Editor) {
     fun getThemeColor(image: File, count: Int) {
         val imageBody = MultipartBody.Part.createFormData("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
         //val countBody = RequestBody.create(MediaType.parse("text/plain"), count.toString())
-        callThemeColor = service.getThemeColor("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP), imageBody)//, count)
+        val callThemeColor = service.getThemeColor("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP), imageBody)//, count)
         callThemeColor.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 val themeColorImage = response!!.body()!!
