@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         this.setTitle(R.string.app_name)
-        mImage=findViewById(R.id.imageView)
+        mImage = findViewById(R.id.imageView)
 
     }
 
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     throw RuntimeException("User denied the permission")
                 } else {
-                    ActivityCompat.requestPermissions(this, Array(1){ Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE)
+                    ActivityCompat.requestPermissions(this, Array(1) { Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE)
                 }
             } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     throw RuntimeException("User denied the permission")
                 } else {
-                    ActivityCompat.requestPermissions(this, Array(1){ Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE)
+                    ActivityCompat.requestPermissions(this, Array(1) { Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE)
                 }
             } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
@@ -133,13 +133,13 @@ class MainActivity : AppCompatActivity() {
         if (resultCode != Activity.RESULT_OK) {
             return
         }
-        data?.let {
-            when (requestCode) {
-                PICTURE -> WorkspaceManager.bitmap = galleryModel.getBitmap(resultCode, it)
-                CAMERA -> WorkspaceManager.bitmap = cameraModel.getBitmap(resultCode, it)
-            }
 
+        when (requestCode) {
+            PICTURE -> WorkspaceManager.bitmap = galleryModel.getBitmap(resultCode, data!!)
+            CAMERA -> WorkspaceManager.bitmap = cameraModel.getBitmap(resultCode)
         }
+
+
         mImage.setImageBitmap(WorkspaceManager.bitmap)
     }
 }
