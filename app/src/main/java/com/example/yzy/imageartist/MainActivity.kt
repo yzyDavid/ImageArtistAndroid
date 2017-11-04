@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mButtonTakePhoto: Button
     private lateinit var mButtonCancel: Button
     private lateinit var mDialog: Dialog
+
+    private val galleryModel = GalleryModel(this, PICTURE)
+    private val cameraModel = CameraModel(this, CAMERA)
+    private var bitmap: Bitmap? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -55,12 +60,10 @@ class MainActivity : AppCompatActivity() {
         dialogWindow.attributes = lp
         mDialog.show()
         mButtonChoosePhoto.setOnClickListener {
-            val album = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(album, PICTURE)
+            galleryModel.startGallery()
         }
         mButtonTakePhoto.setOnClickListener {
-            val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(camera, CAMERA)
+            cameraModel.startCamera()
         }
         mButtonCancel.setOnClickListener {
             mDialog.dismiss()
@@ -69,36 +72,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICTURE && resultCode == Activity.RESULT_OK && null != data) {
-            val selectedImage: Uri = data.data
-            val filePathColumns = arrayOf(MediaStore.Images.Media.DATA)
-            val c: Cursor = this.contentResolver.query(selectedImage, filePathColumns, null, null, null)
-            c.moveToFirst()
-            val columnIndex: Int = c.getColumnIndex(filePathColumns[0])
-            var picturePath: String = c.getString(columnIndex)
-            c.close()
-        } else if (requestCode == CAMERA && resultCode == Activity.RESULT_OK && null != data) {
-            val sdState: String = Environment.getExternalStorageState()
-            if (sdState != Environment.MEDIA_MOUNTED) {
-                this.toast("SD card unmount")
-                return
-            }
-            val dateFormat: DateFormat = SimpleDateFormat("yyyyMMdd_hhmmss")
-            val name: String = dateFormat.format(Calendar.getInstance(Locale.CHINA)) + "jpg"
-            val bundle: Bundle = data.extras
-            val bitmap: Bitmap = bundle.get("data") as Bitmap
-            val file: File = File("/sdcard/pintu/")
-            file.mkdirs()
-            val filename: String = file.getPath() + name
-            var fout: FileOutputStream = FileOutputStream(filename)
-            try {
-                fout = FileOutputStream(filename)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fout)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                fout.flush()
-                fout.close()
+        data?.let {
+            when (requestCode) {
+                PICTURE -> bitmap = galleryModel.getBitmap(resultCode, it)
+                CAMERA -> bitmap = cameraModel.getBitmap(resultCode, it)
             }
         }
     }
