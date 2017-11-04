@@ -9,6 +9,7 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.NumberPicker.Formatter
 import android.widget.NumberPicker.OnValueChangeListener
+import android.widget.ProgressBar
 
 
 class Editor : AppCompatActivity () ,Formatter{
@@ -18,6 +19,7 @@ class Editor : AppCompatActivity () ,Formatter{
     private lateinit var inflate: View
     private lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
+    private lateinit var mProgressBar: ProgressBar
     private  var mColorNum: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +58,18 @@ class Editor : AppCompatActivity () ,Formatter{
         })
         mNumPicker.setOnClickListener{
             mDialog.dismiss()
+            mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
+            inflate = LayoutInflater.from(this).inflate(R.layout.progressbar, null)
+            mDialog.setContentView(inflate)
+            val dialogWindow: Window = mDialog.window
+            dialogWindow.setGravity(Gravity.CENTER)
+            val lp: WindowManager.LayoutParams = dialogWindow.attributes
+            lp.alpha=9f
+            inflate.measure(0, 0)
+            lp.height = inflate.measuredHeight
+            lp.width = inflate.measuredWidth
+            dialogWindow.attributes = lp
+            mDialog.show()
         }
     }
 
