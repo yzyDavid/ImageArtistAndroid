@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.yzy.imageartist">
+          package="com.example.yzy.imageartist">
+
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <user-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
+        android:required="false"/>
 
     <application
         android:allowBackup="true"
@@ -19,17 +21,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
-
-        <activity android:name=".Stylize" />
-        <activity android:name=".Joint" />
-        <activity android:name=".Sticker" />
-        <activity android:name=".Frame" />
-        <activity android:name=".Settings" />
+        <activity android:name=".Stylize"/>
+        <activity android:name=".Joint"/>
+        <activity android:name=".Sticker"/>
+        <activity android:name=".Frame"/>
+        <activity android:name=".Settings"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -38,10 +40,11 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
 
-
+        <activity android:name=".Editor">
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/edit_area"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:gravity="bottom">
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/function_bar"
+                  android:layout_width="fill_parent"
+                  android:layout_height="56dp"
+                  android:orientation="horizontal"
+
+                  >
+        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/function_bar_gridlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:columnCount="3"
+                    android:orientation="horizontal"
+                    android:rowCount="1"
+
+                    tools:context="com.example.android_grillayout.MainActivity" >
+            <TextView
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:layout_columnWeight="1"
+                android:text="@string/choose_color"/>
+            <TextView
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:text="@string/choose_tool"
+                />
+            <TextView
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:text="@string/export"
+                android:gravity="center"/>
+           </GridLayout>
+    </LinearLayout>
+</LinearLayout>
+
+
