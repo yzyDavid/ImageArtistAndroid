@@ -8,6 +8,9 @@ import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.NumberPicker.Formatter
+import android.widget.NumberPicker.OnValueChangeListener
+
+
 class Editor : AppCompatActivity () ,Formatter{
 
     private lateinit var mNumPicker: NumberPicker
@@ -15,6 +18,7 @@ class Editor : AppCompatActivity () ,Formatter{
     private lateinit var inflate: View
     private lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
+    private  var mColorNum: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +50,13 @@ class Editor : AppCompatActivity () ,Formatter{
         mNumPicker.setFormatter(this)
         mNumPicker.maxValue=5
         mNumPicker.minValue=1
-
+        mColorNum = mNumPicker.value
+        mNumPicker.setOnValueChangedListener(OnValueChangeListener { picker, oldVal, newVal ->
+            mColorNum = newVal
+        })
+        mNumPicker.setOnClickListener{
+            mDialog.dismiss()
+        }
     }
 
     override fun format(value: Int): String {
