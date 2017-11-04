@@ -6,7 +6,7 @@
               android:backgroundTint="@color/white_transparent">
 
     <NumberPicker
-        android:id="@+id/numpicker"
+        android:id="@+id/numberpicker"
         android:layout_width="100dp"
         android:layout_height="wrap_content" />
 </LinearLayout>

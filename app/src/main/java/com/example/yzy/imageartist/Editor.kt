@@ -7,8 +7,8 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.TextView
-
-class Editor : AppCompatActivity() {
+import android.widget.NumberPicker.Formatter
+class Editor : AppCompatActivity () ,Formatter{
 
     private lateinit var mNumPicker: NumberPicker
     private lateinit var mChooseColorNum: TextView
@@ -42,5 +42,18 @@ class Editor : AppCompatActivity() {
         lp.width = inflate.measuredWidth
         dialogWindow.attributes = lp
         mDialog.show()
+        mNumPicker = inflate.findViewById(R.id.numberpicker)
+        mNumPicker.setFormatter(this)
+        mNumPicker.maxValue=5
+        mNumPicker.minValue=1
+
+    }
+
+    override fun format(value: Int): String {
+        var tmpStr = value.toString()
+        if (value < 10) {
+            tmpStr = tmpStr
+        }
+        return tmpStr
     }
 }
