@@ -77,6 +77,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
         data?.let {
             when (requestCode) {
                 PICTURE -> bitmap = galleryModel.getBitmap(resultCode, it)

@@ -27,7 +27,6 @@
 
                     tools:context="com.example.android_grillayout.MainActivity" >
             <TextView
-
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:layout_columnWeight="1"
