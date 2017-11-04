@@ -9,4 +9,5 @@
     <color name="blue">#56abe4</color>
     <color name="darkgrey">#808A87</color>
     <color name="lightgrey">#DCDCDC</color>
+    <color name="transparent">#00000000</color>
 </resources>

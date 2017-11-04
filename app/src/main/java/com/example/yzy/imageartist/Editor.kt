@@ -2,7 +2,6 @@ package com.example.yzy.imageartist
 
 import android.app.Dialog
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -14,6 +13,7 @@ import android.widget.NumberPicker.Formatter
 import android.widget.NumberPicker.OnValueChangeListener
 import java.io.File
 import java.io.FileOutputStream
+import android.widget.ProgressBar
 
 
 class Editor : AppCompatActivity () ,Formatter{
@@ -23,6 +23,7 @@ class Editor : AppCompatActivity () ,Formatter{
     private lateinit var inflate: View
     private lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
+    private lateinit var mProgressBar: ProgressBar
     private  var mColorNum: Int = 1
     private val stylizeModel = StylizeModel(this)
 
@@ -70,6 +71,18 @@ class Editor : AppCompatActivity () ,Formatter{
             os.close()
             stylizeModel.getThemeColor(image, mColorNum)
             mDialog.dismiss()
+            mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
+            inflate = LayoutInflater.from(this).inflate(R.layout.progressbar, null)
+            mDialog.setContentView(inflate)
+            val dialogWindow: Window = mDialog.window
+            dialogWindow.setGravity(Gravity.CENTER)
+            val lp: WindowManager.LayoutParams = dialogWindow.attributes
+            lp.alpha=9f
+            inflate.measure(0, 0)
+            lp.height = inflate.measuredHeight
+            lp.width = inflate.measuredWidth
+            dialogWindow.attributes = lp
+            mDialog.show()
         }
     }
 
