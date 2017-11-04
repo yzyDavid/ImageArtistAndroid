@@ -13,7 +13,7 @@ import android.support.v4.content.FileProvider
 
 class CameraModel(private val activity: AppCompatActivity, private val requestCode: Int) {
     private var photoPath: String = ""
-    fun getBitmap(resultCode: Int, data: Intent): Bitmap {
+    fun getBitmap(resultCode: Int): Bitmap {
         if (resultCode != Activity.RESULT_OK) {
             throw RuntimeException("Not a valid result")
         }
@@ -36,9 +36,7 @@ class CameraModel(private val activity: AppCompatActivity, private val requestCo
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         activity.startActivityForResult(intent, requestCode)
     }
-
-
-    }
+}
 
 
 

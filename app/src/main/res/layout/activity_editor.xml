@@ -6,8 +6,9 @@
               android:orientation="vertical"
               android:gravity="bottom">
 <ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+    android:id="@+id/photo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:id="@+id/function_bar"
@@ -27,6 +28,8 @@
 
                     tools:context="com.example.android_grillayout.MainActivity" >
             <TextView
+                android:id="@+id/choosenum_text"
+                android:onClick="show"
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:layout_columnWeight="1"
