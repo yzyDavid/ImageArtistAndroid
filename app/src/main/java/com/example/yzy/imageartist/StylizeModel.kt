@@ -10,6 +10,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.io.File
 
@@ -20,19 +21,20 @@ class StylizeModel(private val activity: AppCompatActivity) {
 
         @Multipart
         @POST("theme_color")
-        fun getThemeColor(@Part("image") image: File, @Part("count") count: Int): Call<ThemeColorImage>
+        fun getThemeColor(@Header("authorization") credential: String, @Part("image") image: RequestBody): Call<ResponseBody>//, @Part("count") count: Int): Call<ThemeColorImage>
     }
 
     data class Hello(var string: String)
     data class ThemeColorImage(val image: File)
 
     private val retrofit = Retrofit.Builder()
+            //.addConverterFactory(GsonConverterFactory.create())
             .baseUrl(Config.baseUrl)
             .build()
     private val service = retrofit.create(StylizeService::class.java)
 
     private lateinit var callHello: Call<ResponseBody>
-    private lateinit var callThemeColor: Call<ThemeColorImage>
+    private lateinit var callThemeColor: Call<ResponseBody>
 
     private lateinit var hello: Hello
     private lateinit var themeColorImage: ThemeColorImage
@@ -54,16 +56,16 @@ class StylizeModel(private val activity: AppCompatActivity) {
     }
 
     fun getThemeColor(image: File, count: Int) {
-        val imageBody = MultipartBody.Part.createFormData("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
+        val imageBody = RequestBody.create(MediaType.parse("image/jpeg"), image)
         //val countBody = RequestBody.create(MediaType.parse("text/plain"), count.toString())
-        callThemeColor = service.getThemeColor(image, count)
-        callThemeColor.enqueue(object : Callback<ThemeColorImage> {
-            override fun onResponse(call: Call<ThemeColorImage>?, response: Response<ThemeColorImage>?) {
-                themeColorImage = response!!.body()!!
+        callThemeColor = service.getThemeColor("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP), imageBody)//, count)
+        callThemeColor.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                val themeColorImage = response!!.body()!!
                 // TODO: activity stop the progress bar and show the image
             }
 
-            override fun onFailure(call: Call<ThemeColorImage>?, t: Throwable?) {
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                 RuntimeException(t!!.message)
             }
         })
