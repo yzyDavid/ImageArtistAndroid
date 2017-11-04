@@ -29,6 +29,7 @@ dependencies {
     compile "org.jetbrains.anko:anko-commons:$anko_version"
     compile "org.jetbrains.anko:anko-sqlite:$anko_version"
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile "com.squareup.retrofit2:converter-gson:2.3.0"
 
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
