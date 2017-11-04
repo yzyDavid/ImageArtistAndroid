@@ -16,7 +16,7 @@ import java.io.FileOutputStream
 import android.widget.ProgressBar
 
 
-class Editor : AppCompatActivity () ,Formatter{
+class Editor : AppCompatActivity(), Formatter {
 
     private lateinit var mNumPicker: NumberPicker
     private lateinit var mChooseColorNum: TextView
@@ -24,7 +24,7 @@ class Editor : AppCompatActivity () ,Formatter{
     private lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
     private lateinit var mProgressBar: ProgressBar
-    private  var mColorNum: Int = 1
+    private var mColorNum: Int = 1
     private val stylizeModel = StylizeModel(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ class Editor : AppCompatActivity () ,Formatter{
         val dialogWindow: Window = mDialog.window
         dialogWindow.setGravity(Gravity.CENTER)
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
-        lp.alpha=9f
+        lp.alpha = 9f
         inflate.measure(0, 0)
         lp.height = inflate.measuredHeight
         lp.width = inflate.measuredWidth
@@ -55,13 +55,13 @@ class Editor : AppCompatActivity () ,Formatter{
         mDialog.show()
         mNumPicker = inflate.findViewById(R.id.numberpicker)
         mNumPicker.setFormatter(this)
-        mNumPicker.maxValue=5
-        mNumPicker.minValue=1
+        mNumPicker.maxValue = 10
+        mNumPicker.minValue = 2
         mColorNum = mNumPicker.value
-        mNumPicker.setOnValueChangedListener(OnValueChangeListener { picker, oldVal, newVal ->
+        mNumPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             mColorNum = newVal
-        })
-        mNumPicker.setOnClickListener{
+        }
+        mNumPicker.setOnClickListener {
             val fileName = "ImageArtist_" + System.currentTimeMillis()
             val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val image = File.createTempFile(fileName, ".jpg", storageDir)
@@ -77,7 +77,7 @@ class Editor : AppCompatActivity () ,Formatter{
             val dialogWindow: Window = mDialog.window
             dialogWindow.setGravity(Gravity.CENTER)
             val lp: WindowManager.LayoutParams = dialogWindow.attributes
-            lp.alpha=9f
+            lp.alpha = 9f
             inflate.measure(0, 0)
             lp.height = inflate.measuredHeight
             lp.width = inflate.measuredWidth

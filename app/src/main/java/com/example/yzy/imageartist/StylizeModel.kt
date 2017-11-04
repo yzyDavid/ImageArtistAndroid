@@ -22,6 +22,7 @@ class StylizeModel(private val activity: AppCompatActivity) {
         @POST("theme_color")
         fun getThemeColor(@Part("image") image: File, @Part("count") count: Int): Call<ThemeColorImage>
     }
+
     data class Hello(var string: String)
     data class ThemeColorImage(val image: File)
 
