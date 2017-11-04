@@ -36,4 +36,9 @@ class CameraModel(private val activity: AppCompatActivity, private val requestCo
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         activity.startActivityForResult(intent, requestCode)
     }
-}
+
+
+    }
+
+
+

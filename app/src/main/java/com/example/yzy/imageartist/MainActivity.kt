@@ -15,8 +15,12 @@ import android.view.*
 import android.widget.Button
 import android.widget.TextView
 import android.provider.MediaStore
+
+import android.widget.ImageView
+
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+
 import org.jetbrains.anko.toast
 import java.io.File
 import java.io.FileOutputStream
@@ -27,8 +31,10 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val CAMERA: Int = 1
     private val PICTURE: Int = 0
+
     private val CAMERA_STORAGE: Int = 2
     private val CAMERA_INTENT: Int = 3
+
     private lateinit var mTextCamera: TextView
     private lateinit var mTextAlbum: TextView
     private lateinit var inflate: View
@@ -36,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mButtonTakePhoto: Button
     private lateinit var mButtonCancel: Button
     private lateinit var mDialog: Dialog
-
+    private lateinit var mImage: ImageView
     private val galleryModel = GalleryModel(this, PICTURE)
     private val cameraModel = CameraModel(this, CAMERA)
     private var bitmap: Bitmap? = null
@@ -46,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         this.setTitle(R.string.app_name)
+        mImage=findViewById(R.id.imageView)
+
     }
 
     public fun show(view: View) {
@@ -66,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         dialogWindow.attributes = lp
         mDialog.show()
         mButtonChoosePhoto.setOnClickListener {
+
             galleryModel.startGallery()
         }
         mButtonTakePhoto.setOnClickListener {
@@ -109,11 +118,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
         data?.let {
             when (requestCode) {
                 PICTURE -> bitmap = galleryModel.getBitmap(resultCode, it)
                 CAMERA -> bitmap = cameraModel.getBitmap(resultCode, it)
             }
+
         }
+        mImage.setImageBitmap(bitmap)
     }
 }
+
