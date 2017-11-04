@@ -21,7 +21,7 @@ class Editor : AppCompatActivity(), Formatter {
     private lateinit var mNumPicker: NumberPicker
     private lateinit var mChooseColorNum: TextView
     private lateinit var inflate: View
-    private lateinit var mPhoto: ImageView
+    public lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
     private lateinit var mProgressBar: ProgressBar
     private var mColorNum: Int = 1

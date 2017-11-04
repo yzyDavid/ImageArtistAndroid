@@ -14,7 +14,7 @@ import retrofit2.Retrofit
 class Stylize : AppCompatActivity() {
 
     private lateinit var mButtonHello: Button
-    private val stylizeModel = StylizeModel(this)
+    //private val stylizeModel = StylizeModel(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class Stylize : AppCompatActivity() {
 
     fun stylizeShow(view: View) {
         mButtonHello.setOnClickListener {
-            stylizeModel.getHello()
+            //stylizeModel.getHello()
         }
     }
 }
