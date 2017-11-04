@@ -71,18 +71,6 @@ class Editor : AppCompatActivity(), Formatter {
             os.close()
             stylizeModel.getThemeColor(image, mColorNum)
             mDialog.dismiss()
-            mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
-            inflate = LayoutInflater.from(this).inflate(R.layout.progressbar, null)
-            mDialog.setContentView(inflate)
-            val dialogWindow: Window = mDialog.window
-            dialogWindow.setGravity(Gravity.CENTER)
-            val lp: WindowManager.LayoutParams = dialogWindow.attributes
-            lp.alpha = 9f
-            inflate.measure(0, 0)
-            lp.height = inflate.measuredHeight
-            lp.width = inflate.measuredWidth
-            dialogWindow.attributes = lp
-            mDialog.show()
         }
     }
 
