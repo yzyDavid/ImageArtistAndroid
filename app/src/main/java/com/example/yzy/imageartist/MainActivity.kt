@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mImage: ImageView
     private val galleryModel = GalleryModel(this, PICTURE)
     private val cameraModel = CameraModel(this, CAMERA)
-    private var bitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,12 +135,12 @@ class MainActivity : AppCompatActivity() {
         }
         data?.let {
             when (requestCode) {
-                PICTURE -> bitmap = galleryModel.getBitmap(resultCode, it)
-                CAMERA -> bitmap = cameraModel.getBitmap(resultCode, it)
+                PICTURE -> WorkspaceManager.bitmap = galleryModel.getBitmap(resultCode, it)
+                CAMERA -> WorkspaceManager.bitmap = cameraModel.getBitmap(resultCode, it)
             }
 
         }
-        mImage.setImageBitmap(bitmap)
+        mImage.setImageBitmap(WorkspaceManager.bitmap)
     }
 }
 
