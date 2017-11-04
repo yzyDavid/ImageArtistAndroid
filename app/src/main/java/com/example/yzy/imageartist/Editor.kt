@@ -1,14 +1,19 @@
 package com.example.yzy.imageartist
 
 import android.app.Dialog
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.view.*
 import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.NumberPicker.Formatter
 import android.widget.NumberPicker.OnValueChangeListener
+import java.io.File
+import java.io.FileOutputStream
 
 
 class Editor : AppCompatActivity () ,Formatter{
@@ -19,6 +24,7 @@ class Editor : AppCompatActivity () ,Formatter{
     private lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
     private  var mColorNum: Int = 1
+    private val stylizeModel = StylizeModel(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +61,14 @@ class Editor : AppCompatActivity () ,Formatter{
             mColorNum = newVal
         })
         mNumPicker.setOnClickListener{
+            val fileName = "ImageArtist_" + System.currentTimeMillis()
+            val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val image = File.createTempFile(fileName, ".jpg", storageDir)
+            val os = FileOutputStream(image)
+            WorkspaceManager.bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            os.flush()
+            os.close()
+            stylizeModel.getThemeColor(image, mColorNum)
             mDialog.dismiss()
         }
     }
