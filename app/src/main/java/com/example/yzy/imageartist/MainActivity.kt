@@ -9,12 +9,9 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.support.design.widget.FloatingActionButton
 import android.view.*
-import android.view.Gravity.*
 import android.widget.Button
 import android.widget.TextView
-import java.util.concurrent.TimeoutException
 import android.provider.MediaStore
 import org.jetbrains.anko.toast
 import java.io.File
@@ -24,11 +21,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-   /* private lateinit var mButtonStylize: Button
-    private lateinit var mButtonJoint: Button
-    private lateinit var mButtonSticker: Button
-    private lateinit var mButtonFrame: Button
-    private lateinit var mButtonSettings: FloatingActionButton*/
     private val CAMERA: Int = 1
     private val PICTURE: Int = 0
     private lateinit var mTextCamera: TextView
@@ -36,64 +28,31 @@ class MainActivity : AppCompatActivity() {
     private lateinit var inflate: View
     private lateinit var mButtonChoosePhoto: Button
     private lateinit var mButtonTakePhoto: Button
-    private lateinit var mButtonCancle: Button
+    private lateinit var mButtonCancel: Button
     private lateinit var mDialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         this.setTitle(R.string.app_name)
-
-      /*  mButtonStylize = findViewById(R.id.stylize_button)
-        mButtonStylize.setOnClickListener {
-            val intent = Intent()
-            intent.setClass(this, Stylize::class.java)
-            startActivity(intent)
-        }
-
-        mButtonJoint = findViewById(R.id.joint_button)
-        mButtonJoint.setOnClickListener {
-            val intent = Intent()
-            intent.setClass(this, Joint::class.java)
-            startActivity(intent)
-        }
-
-        mButtonSticker = findViewById(R.id.sticker_button)
-        mButtonSticker.setOnClickListener {
-            val intent = Intent()
-            intent.setClass(this, Sticker::class.java)
-            startActivity(intent)
-        }
-
-        mButtonFrame = findViewById(R.id.frame_button)
-        mButtonFrame.setOnClickListener {
-            val intent = Intent()
-            intent.setClass(this, Frame::class.java)
-            startActivity(intent)
-        }
-        mButtonSettings = findViewById(R.id.setting_button)
-        mButtonSettings.setOnClickListener {
-            val intent = Intent()
-            intent.setClass(this, Settings::class.java)
-            startActivity(intent)
-        }*/
     }
-    public fun show(view: View){
+
+    public fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.initdialog, null)
         mButtonChoosePhoto = inflate.findViewById(R.id.choosePhoto_button)
         mButtonTakePhoto = inflate.findViewById(R.id.takePhoto_button)
-        mButtonCancle = inflate.findViewById(R.id.cancle_button)
+        mButtonCancel = inflate.findViewById(R.id.cancle_button)
         mDialog.setContentView(inflate)
-        val dialogWindow :Window = mDialog.window
+        val dialogWindow: Window = mDialog.window
         dialogWindow.setGravity(Gravity.BOTTOM)
-        val lp :WindowManager.LayoutParams = dialogWindow.attributes
+        val lp: WindowManager.LayoutParams = dialogWindow.attributes
         lp.y = -20
         lp.x = 0
-        inflate.measure(0,0)
+        inflate.measure(0, 0)
         lp.height = inflate.measuredHeight
         lp.alpha = 9f
-        dialogWindow.setAttributes(lp)
+        dialogWindow.attributes = lp
         mDialog.show()
         mButtonChoosePhoto.setOnClickListener {
             val album = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -103,11 +62,11 @@ class MainActivity : AppCompatActivity() {
             val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(camera, CAMERA)
         }
-        mButtonCancle.setOnClickListener {
-            if (mDialog!=null)
-                mDialog.dismiss()
+        mButtonCancel.setOnClickListener {
+            mDialog.dismiss()
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICTURE && resultCode == Activity.RESULT_OK && null != data) {
