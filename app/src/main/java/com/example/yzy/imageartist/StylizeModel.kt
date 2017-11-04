@@ -1,10 +1,12 @@
 package com.example.yzy.imageartist
 
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
-import okhttp3.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,16 +14,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 class StylizeModel(private val activity: Editor) {
     interface StylizeService {
         @GET("hello")
         fun getTest(@Header("authorization") credential: String): Call<ResponseBody>
 
-        @Multipart
-        @POST("theme_color")
-        fun getThemeColor(@Header("authorization") credential: String, @Part image: MultipartBody.Part): Call<ResponseBody>//, @Part("count") count: Int): Call<ThemeColorImage>
+        @POST("theme_color_count")
+        fun getThemeColor(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>//@Part("image") image: MultipartBody, @Part("count") count: MultipartBody): Call<RequestBody>
     }
 
     data class Hello(var string: String)
@@ -30,10 +30,6 @@ class StylizeModel(private val activity: Editor) {
     private val retrofit = Retrofit.Builder()
             //.addConverterFactory(GsonConverterFactory.create())
             .baseUrl(Config.baseUrl)
-            .client(OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .build())
             .build()
     private val service = retrofit.create(StylizeService::class.java)
 
@@ -58,8 +54,12 @@ class StylizeModel(private val activity: Editor) {
 
     fun getThemeColor(image: File, count: Int) {
         val imageBody = MultipartBody.Part.createFormData("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
+                .addFormDataPart("count", count.toString())
+                .build()
         //val countBody = RequestBody.create(MediaType.parse("text/plain"), count.toString())
-        val callThemeColor = service.getThemeColor("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP), imageBody)//, count)
+        val callThemeColor = service.getThemeColor("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP), requestBody)//, count)
         callThemeColor.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 val themeColorImage = response!!.body()!!
