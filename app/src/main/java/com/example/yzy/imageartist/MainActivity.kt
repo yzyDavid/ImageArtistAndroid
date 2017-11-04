@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
             CAMERA -> WorkspaceManager.bitmap = cameraModel.getBitmap(resultCode)
         }
 
-        var intent = Intent(this, Editor::class.java)
+        val intent = Intent(this, Editor::class.java)
         startActivity(intent)
 
     }
