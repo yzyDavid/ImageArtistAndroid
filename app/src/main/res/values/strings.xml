@@ -11,4 +11,8 @@
     <string name="SelectFromAlbum">从相册中选择</string>
     <string name="Cancle">取消</string>
     <string name="SelectRule">点击任意位置选择图片</string>
+    <string name="Editor">编辑图片</string>
+    <string name="choose_color">颜色</string>
+    <string name="choose_tool">工具</string>
+    <string name="export">导出</string>
 </resources>

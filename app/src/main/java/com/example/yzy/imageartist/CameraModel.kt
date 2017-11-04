@@ -25,8 +25,7 @@ class CameraModel(private val activity: AppCompatActivity, private val requestCo
     @Throws(IOException::class)
     fun startCamera() {
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val timeStamp = SimpleDateFormat("""yyyyMMdd_HHmmss""", Locale.CHINA)
-        val fileName = "ImageArtist_" + timeStamp
+        val fileName = "ImageArtist_" + System.currentTimeMillis()
         val image = File.createTempFile(fileName, ".jpg", storageDir)
         photoPath = image.absolutePath
 
@@ -43,4 +42,4 @@ class CameraModel(private val activity: AppCompatActivity, private val requestCo
     }
 
 
-}
+
