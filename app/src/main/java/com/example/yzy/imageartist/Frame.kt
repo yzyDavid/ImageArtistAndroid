@@ -26,23 +26,24 @@ import java.util.Locale
 import java.text.SimpleDateFormat
 
 class Frame : AppCompatActivity() {
-    public var CAMERA: Int = 1
-    public var PICTURE: Int = 0
+    private val CAMERA: Int = 1
+    private val PICTURE: Int = 0
     private lateinit var mTextCamera: TextView
     private lateinit var mTextAlbum: TextView
     lateinit var mImageView: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frame)
-        title = "边框"
+        this.setTitle(R.string.frame)
         mTextAlbum = findViewById(R.id.album_text)
         mTextAlbum.setOnClickListener {
-            var album = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val album = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(album, PICTURE)
         }
         mTextCamera = findViewById(R.id.camera_text)
         mTextCamera.setOnClickListener {
-            var camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(camera, CAMERA)
         }
     }
@@ -50,26 +51,26 @@ class Frame : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICTURE && resultCode == Activity.RESULT_OK && null != data) {
-            var selectedImage: Uri = data.getData()
-            var filePathColumns = arrayOf(MediaStore.Images.Media.DATA)
-            var c: Cursor = this.getContentResolver().query(selectedImage, filePathColumns, null, null, null)
+            val selectedImage: Uri = data.data
+            val filePathColumns = arrayOf(MediaStore.Images.Media.DATA)
+            val c: Cursor = this.contentResolver.query(selectedImage, filePathColumns, null, null, null)
             c.moveToFirst()
-            var columnIndex: Int = c.getColumnIndex(filePathColumns[0])
+            val columnIndex: Int = c.getColumnIndex(filePathColumns[0])
             var picturePath: String = c.getString(columnIndex)
             c.close()
         } else if (requestCode == CAMERA && resultCode == Activity.RESULT_OK && null != data) {
-            var sdState: String = Environment.getExternalStorageState()
-            if (!sdState.equals(Environment.MEDIA_MOUNTED)) {
+            val sdState: String = Environment.getExternalStorageState()
+            if (sdState != Environment.MEDIA_MOUNTED) {
                 this.toast("SD card unmount")
                 return
             }
-            var dateformat: DateFormat = SimpleDateFormat("yyyyMMdd_hhmmss")
-            var name: String = dateformat.format(Calendar.getInstance(Locale.CHINA)) + "jpg"
-            var bundle: Bundle = data.getExtras()
-            var bitmap: Bitmap = bundle.get("data") as Bitmap
-            var file: File = File("/sdcard/pintu/")
+            val dateFormat: DateFormat = SimpleDateFormat("yyyyMMdd_hhmmss")
+            val name: String = dateFormat.format(Calendar.getInstance(Locale.CHINA)) + "jpg"
+            val bundle: Bundle = data.extras
+            val bitmap: Bitmap = bundle.get("data") as Bitmap
+            val file: File = File("/sdcard/pintu/")
             file.mkdirs()
-            var filename: String = file.getPath() + name
+            val filename: String = file.getPath() + name
             var fout: FileOutputStream = FileOutputStream(filename)
             try {
                 fout = FileOutputStream(filename)
@@ -77,19 +78,9 @@ class Frame : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                try {
-                    fout.flush()
-                    fout.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-
+                fout.flush()
+                fout.close()
             }
-
         }
-
-
     }
-
-
 }

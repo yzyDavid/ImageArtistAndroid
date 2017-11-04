@@ -5,83 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/init_layout"
+    android:onClick="show"
 
     tools:context="com.example.yzy.imageartist.MainActivity">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/title_pink"
+        android:src="@drawable/title_grey"
         android:layout_centerHorizontal="true"
         android:paddingTop="50dp"
         android:id="@+id/imageView"/>
-    <LinearLayout
+
+    <ImageView
+        android:id="@+id/adder_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="1"
-        android:id="@+id/linearLayout"
-        android:layout_alignParentStart="true"/>
+        android:layout_marginLeft="120dp"
+        android:layout_marginRight="120dp"
+        android:layout_marginBottom="170dp"
+        android:layout_marginTop="170dp"
+        android:src="@drawable/add"/>
 
-
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:rowCount="2"
-            android:columnCount="2"
-            android:layout_below="@+id/imageView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
-            <Button
-                android:id="@+id/stylize_button"
-                android:text="@string/stylize"
-                android:textSize="30dp"
-                android:layout_margin="10dp"
-                android:elevation="6dp"
-                android:background="@drawable/square_trans"/>
-            <Button
-                android:id="@+id/joint_button"
-                android:text="@string/joint"
-                android:textSize="30dp"
-                android:layout_margin="10dp"
-                android:elevation="6dp"
-                android:background="@drawable/square_trans"/>
-            <Button
-                android:id="@+id/sticker_button"
-                android:text="@string/sticker"
-                android:textSize="30dp"
-                android:layout_margin="10dp"
-                android:layout_marginRight="16dp"
-                android:elevation="6dp"
-                android:background="@drawable/square_trans"/>
-            <Button
-                android:id="@+id/frame_button"
-                android:text="@string/frame"
-                android:textSize="30dp"
-                android:layout_margin="10dp"
-                android:elevation="6dp"
-                android:background="@drawable/square_trans"/>
-
-
-        </GridLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/setting_button"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/setting"
-        app:backgroundTint="@color/pink"
-        app:borderWidth="0.0dip"
-        app:elevation="6dip"
-        app:fabSize="normal"
-        app:pressedTranslationZ="12dip"
-        app:rippleColor="@color/white_transparent"
-        android:layout_marginLeft="10.0dip"
-        android:layout_marginRight="10.0dip"
-        android:layout_marginEnd="29dp"
-        android:layout_marginBottom="31dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="141dp"
+        android:text="@string/SelectRule"
+        android:textSize="21dp"/>
+
+
 
 </RelativeLayout>
