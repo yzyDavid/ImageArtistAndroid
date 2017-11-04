@@ -9,9 +9,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import java.io.File
 import java.io.IOException
-import java.text.SimpleDateFormat
 import android.support.v4.content.FileProvider
-import java.util.*
 
 class CameraModel(private val activity: AppCompatActivity, private val requestCode: Int) {
     private var photoPath: String = ""
@@ -26,6 +24,7 @@ class CameraModel(private val activity: AppCompatActivity, private val requestCo
     fun startCamera() {
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         val fileName = "ImageArtist_" + System.currentTimeMillis()
+
         val image = File.createTempFile(fileName, ".jpg", storageDir)
         photoPath = image.absolutePath
 
@@ -33,7 +32,7 @@ class CameraModel(private val activity: AppCompatActivity, private val requestCo
         if (intent.resolveActivity(activity.packageManager) == null) {
             throw RuntimeException("NO camera found")
         }
-        val photoUri = FileProvider.getUriForFile(activity, "com.example.android.fileprovider", image)
+        val photoUri = FileProvider.getUriForFile(activity, "com.example.yzy.imageartist", image)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         activity.startActivityForResult(intent, requestCode)
     }
