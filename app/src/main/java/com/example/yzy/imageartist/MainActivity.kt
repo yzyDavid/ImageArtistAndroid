@@ -139,8 +139,9 @@ class MainActivity : AppCompatActivity() {
             CAMERA -> WorkspaceManager.bitmap = cameraModel.getBitmap(resultCode)
         }
 
+        var intent = Intent(this, Editor::class.java)
+        startActivity(intent)
 
-        mImage.setImageBitmap(WorkspaceManager.bitmap)
     }
 }
 
