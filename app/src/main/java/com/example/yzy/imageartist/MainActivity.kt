@@ -75,6 +75,12 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     ActivityCompat.requestPermissions(this, Array(1){ Manifest.permission.WRITE_EXTERNAL_STORAGE }, CAMERA_STORAGE)
                 }
+            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                    throw RuntimeException("User denied the permission")
+                } else {
+                    ActivityCompat.requestPermissions(this, Array(1) { Manifest.permission.CAMERA }, CAMERA)
+                }
             } else {
                 cameraModel.startCamera()
             }
