@@ -1,7 +1,7 @@
 package com.example.yzy.imageartist
 
 import android.app.Dialog
-import android.graphics.Bitmap
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -20,29 +20,46 @@ class Editor : AppCompatActivity(), Formatter {
 
     private lateinit var mNumPicker: NumberPicker
     private lateinit var mChooseColorNum: TextView
+    private lateinit var mStylizeText: TextView
+    private lateinit var mImportText: TextView
     private lateinit var inflate: View
     public lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
+    private lateinit var mToolText: TextView
+    private lateinit var mColorText: TextView
+    private lateinit var mFrameText: TextView
+    private lateinit var mModifyText: TextView
     private lateinit var mProgressBar: ProgressBar
     private var mColorNum: Int = 1
-    private val stylizeModel = StylizeModel(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editor)
         this.setTitle(R.string.Editor)
-        mChooseColorNum = findViewById(R.id.choosenum_text)
         mPhoto = findViewById(R.id.photo)
-
+        mStylizeText = findViewById(R.id.stylize_text)
+        mToolText = findViewById(R.id.tool_text)
+        mImportText = findViewById(R.id.import_text)
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
+        }
+        mStylizeText.setOnClickListener {
+            val intent = Intent(this, Stylize::class.java)
+            startActivity(intent)
+        }
+        mImportText.setOnClickListener {
+            val intent = Intent(this, Import::class.java)
+            startActivity(intent)
         }
 
     }
 
     public fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
-        inflate = LayoutInflater.from(this).inflate(R.layout.choosecolornum, null)
+        inflate = LayoutInflater.from(this).inflate(R.layout.tool_selection, null)
+        mColorText = inflate.findViewById(R.id.color_text)
+        mFrameText = inflate.findViewById(R.id.frame_text)
+        mModifyText = inflate.findViewById(R.id.modify_text)
         mDialog.setContentView(inflate)
         val dialogWindow: Window = mDialog.window
         dialogWindow.setGravity(Gravity.CENTER)
@@ -53,24 +70,17 @@ class Editor : AppCompatActivity(), Formatter {
         lp.width = inflate.measuredWidth
         dialogWindow.attributes = lp
         mDialog.show()
-        mNumPicker = inflate.findViewById(R.id.numberpicker)
-        mNumPicker.setFormatter(this)
-        mNumPicker.maxValue = 10
-        mNumPicker.minValue = 2
-        mColorNum = mNumPicker.value
-        mNumPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-            mColorNum = newVal
+        mColorText.setOnClickListener {
+            val intent = Intent(this, Color::class.java)
+            startActivity(intent)
         }
-        mNumPicker.setOnClickListener {
-            val fileName = "ImageArtist_" + System.currentTimeMillis()
-            val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val image = File.createTempFile(fileName, ".jpg", storageDir)
-            val os = FileOutputStream(image)
-            WorkspaceManager.bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, os)
-            os.flush()
-            os.close()
-            stylizeModel.getThemeColor(image, mColorNum)
-            mDialog.dismiss()
+        mFrameText.setOnClickListener {
+            val intent = Intent(this, Frame::class.java)
+            startActivity(intent)
+        }
+        mModifyText.setOnClickListener {
+            val intent = Intent(this, Modify::class.java)
+            startActivity(intent)
         }
     }
 

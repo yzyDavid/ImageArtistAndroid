@@ -65,8 +65,6 @@ class MainActivity : AppCompatActivity() {
         val dialogWindow: Window = mDialog.window
         dialogWindow.setGravity(Gravity.BOTTOM)
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
-        lp.y = -20
-        lp.x = 0
         inflate.measure(0, 0)
         lp.height = inflate.measuredHeight
         lp.alpha = 9f
