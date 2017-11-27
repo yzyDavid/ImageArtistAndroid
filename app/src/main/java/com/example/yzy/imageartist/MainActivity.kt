@@ -22,12 +22,15 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 
 import org.jetbrains.anko.toast
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.RuntimePermissions
 import java.io.File
 import java.io.FileOutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+@RuntimePermissions
 class MainActivity : AppCompatActivity() {
     private val CAMERA: Int = 1
     private val PICTURE: Int = 0
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    public fun show(view: View) {
+    fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.initdialog, null)
         mButtonChoosePhoto = inflate.findViewById(R.id.choosePhoto_button)
@@ -73,58 +76,23 @@ class MainActivity : AppCompatActivity() {
         dialogWindow.attributes = lp
         mDialog.show()
         mButtonChoosePhoto.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    throw RuntimeException("User denied the permission")
-                } else {
-                    ActivityCompat.requestPermissions(this, Array(1) { Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE)
-                }
-            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                    throw RuntimeException("User denied the permission")
-                } else {
-                    ActivityCompat.requestPermissions(this, Array(1) { Manifest.permission.CAMERA }, CAMERA)
-                }
-            } else {
-                galleryModel.startGallery()
-            }
+            //selectPhoto(PICTURE)
+            selectPhotoWithPermissionCheck(PICTURE)
         }
         mButtonTakePhoto.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    throw RuntimeException("User denied the permission")
-                } else {
-                    ActivityCompat.requestPermissions(this, Array(1) { Manifest.permission.WRITE_EXTERNAL_STORAGE }, STORAGE)
-                }
-            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                    throw RuntimeException("User denied the permission")
-                } else {
-                    ActivityCompat.requestPermissions(this, Array(1) { Manifest.permission.CAMERA }, CAMERA)
-                }
-            } else {
-                cameraModel.startCamera()
-            }
+            //selectPhoto(CAMERA)
+            selectPhotoWithPermissionCheck(CAMERA)
         }
         mButtonCancel.setOnClickListener {
             mDialog.dismiss()
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    @NeedsPermission(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    fun selectPhoto(requestCode: Int) {
         when (requestCode) {
-            STORAGE -> if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                    throw RuntimeException("User denied the permission")
-                } else {
-                    ActivityCompat.requestPermissions(this, Array(1) { Manifest.permission.CAMERA }, CAMERA)
-                }
-            } else {
-                cameraModel.startCamera()
-            }
-            CAMERA_INTENT -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                cameraModel.startCamera()
-            }
+            PICTURE -> galleryModel.startGallery()
+            CAMERA -> cameraModel.startCamera()
         }
     }
 
