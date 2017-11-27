@@ -35,9 +35,6 @@ class MainActivity : AppCompatActivity() {
     private val CAMERA: Int = 1
     private val PICTURE: Int = 0
 
-    private val STORAGE: Int = 2
-    private val CAMERA_INTENT: Int = 3
-
     private lateinit var mTextCamera: TextView
     private lateinit var mTextAlbum: TextView
     private lateinit var inflate: View
@@ -76,11 +73,9 @@ class MainActivity : AppCompatActivity() {
         dialogWindow.attributes = lp
         mDialog.show()
         mButtonChoosePhoto.setOnClickListener {
-            //selectPhoto(PICTURE)
             selectPhotoWithPermissionCheck(PICTURE)
         }
         mButtonTakePhoto.setOnClickListener {
-            //selectPhoto(CAMERA)
             selectPhotoWithPermissionCheck(CAMERA)
         }
         mButtonCancel.setOnClickListener {

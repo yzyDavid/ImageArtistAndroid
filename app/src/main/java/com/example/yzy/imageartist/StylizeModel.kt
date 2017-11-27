@@ -21,27 +21,33 @@ class StylizeModel(private val activity: Editor) {
         fun getTest(@Header("authorization") credential: String): Call<ResponseBody>
 
         @POST("theme_color_count")
-        fun getThemeColor(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>//@Part("image") image: MultipartBody, @Part("count") count: MultipartBody): Call<RequestBody>
+        fun getThemeColor(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
+
+        @Multipart
+        @POST("upload_image")
+        fun uploadImage(@Header("authorization") credential: String, @Part part: MultipartBody.Part): Call<ResponseBody>
+
+        @Multipart
+        @POST("upload_style")
+        fun uploadStyle(@Header("authorization") credential: String, @Part part: MultipartBody.Part): Call<ResponseBody>
+
+        @POST("transfer")
+        fun getTransfer(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
     }
 
-    data class Hello(var string: String)
-    data class ThemeColorImage(val image: File)
-
     private val retrofit = Retrofit.Builder()
-            //.addConverterFactory(GsonConverterFactory.create())
             .baseUrl(Config.baseUrl)
             .build()
     private val service = retrofit.create(StylizeService::class.java)
-
-    private lateinit var hello: Hello
-    private lateinit var themeColorImage: ThemeColorImage
-
+    private val credential = "Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP)
+    private var imageText: String? = null
+    private var styleText: String? = null
 
     fun getHello() {
-        val callHello = service.getTest("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP))
+        val callHello = service.getTest(credential)
         callHello.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-                hello.string = response!!.body()!!.string()
+                response!!.body()!!.string()
                 // TODO: activity stop the progress bar and show the text
             }
 
@@ -53,13 +59,11 @@ class StylizeModel(private val activity: Editor) {
     }
 
     fun getThemeColor(image: File, count: Int) {
-        val imageBody = MultipartBody.Part.createFormData("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
                 .addFormDataPart("count", count.toString())
                 .build()
-        //val countBody = RequestBody.create(MediaType.parse("text/plain"), count.toString())
-        val callThemeColor = service.getThemeColor("Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP), requestBody)//, count)
+        val callThemeColor = service.getThemeColor(credential, requestBody)
         callThemeColor.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 val themeColorImage = response!!.body()!!
@@ -74,5 +78,57 @@ class StylizeModel(private val activity: Editor) {
             }
         })
         // TODO: activity create a progress bar to wait network response
+    }
+
+    fun uploadImage(image: File) {
+        imageText = null
+        val requestBody = MultipartBody.Part.createFormData("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
+        val callUploadImage = service.uploadImage(credential, requestBody)
+        callUploadImage.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                imageText = response!!.body()!!.string()
+                getTransfer()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                RuntimeException(t!!.message)
+            }
+        })
+    }
+
+    fun uploadStyle(image: File) {
+        styleText = null
+        val requestBody = MultipartBody.Part.createFormData("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
+        val callUploadStyle = service.uploadStyle(credential, requestBody)
+        callUploadStyle.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                styleText = response!!.body()!!.string()
+                getTransfer()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                RuntimeException(t!!.message)
+            }
+        })
+    }
+
+    private fun getTransfer() {
+        if (imageText == null || styleText == null) return
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("img", imageText!!)
+                .addFormDataPart("style", styleText!!)
+                .build()
+        val callGetTransfer = service.getTransfer(credential, requestBody)
+        callGetTransfer.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                val bytes = response!!.body()!!.bytes()
+                WorkspaceManager.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
+            }
+
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                RuntimeException(t!!.message)
+            }
+        })
     }
 }
