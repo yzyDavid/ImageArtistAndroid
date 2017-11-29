@@ -28,19 +28,21 @@
 
                     tools:context="com.example.android_gridlayout.MainActivity" >
             <TextView
-                android:id="@+id/choosenum_text"
-                android:onClick="show"
+                android:id="@+id/stylize_text"
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:layout_columnWeight="1"
-                android:text="@string/choose_color"/>
+                android:text="@string/stylize"/>
             <TextView
+                android:id="@+id/tool_text"
                 android:layout_columnWeight="1"
+                android:onClick="show"
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:text="@string/choose_tool"
                 />
             <TextView
+                android:id="@+id/import_text"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:text="@string/export"
