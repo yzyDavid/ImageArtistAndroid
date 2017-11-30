@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 galleryModel.startGallery()
             }
+            mDialog.dismiss()
         }
         mButtonTakePhoto.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -102,6 +103,7 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
                 cameraModel.startCamera()
+                mDialog.dismiss()
             }
         }
         mButtonCancel.setOnClickListener {

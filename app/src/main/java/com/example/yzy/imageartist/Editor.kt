@@ -73,15 +73,19 @@ class Editor : AppCompatActivity(), Formatter {
         mColorText.setOnClickListener {
             val intent = Intent(this, Color::class.java)
             startActivity(intent)
+            mDialog.dismiss()
         }
         mFrameText.setOnClickListener {
             val intent = Intent(this, Frame::class.java)
             startActivity(intent)
+            mDialog.dismiss()
         }
         mModifyText.setOnClickListener {
             val intent = Intent(this, Modify::class.java)
             startActivity(intent)
+            mDialog.dismiss()
         }
+
     }
 
     override fun format(value: Int): String {

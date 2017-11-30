@@ -22,31 +22,35 @@
             android:layout_gravity="fill"
             android:layout_margin="5dp"
             android:layout_height="match_parent"
+            android:text="5"
             />
         <TextView
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
             android:layout_height="match_parent"
+            android:text="4"
             />
         <TextView
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
             android:layout_height="match_parent"
+            android:text="3"
             />
         <TextView
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
             android:layout_height="match_parent"
+            android:text="2"
             />
         <TextView
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
             android:layout_height="match_parent"
-
+            android:text="1"
             />
     </GridLayout>
 

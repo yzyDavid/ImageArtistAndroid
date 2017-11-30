@@ -16,6 +16,7 @@ import java.net.URI
 import android.net.Uri
 import android.os.Environment
 import android.view.ActionMode
+import android.widget.Button
 import org.jetbrains.anko.toast
 import java.io.File
 import java.io.FileOutputStream
@@ -26,10 +27,16 @@ import java.util.Locale
 import java.text.SimpleDateFormat
 
 class Frame : AppCompatActivity() {
+    public lateinit var mPhoto: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_color)
+        setContentView(R.layout.activity_frame)
         this.setTitle(R.string.frame)
+        mPhoto=findViewById(R.id.frame_photo)
+         WorkspaceManager.bitmap?.let {
+             mPhoto.setImageBitmap(it)
+         }
     }
-    }
+}
 
