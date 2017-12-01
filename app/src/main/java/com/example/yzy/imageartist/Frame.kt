@@ -31,5 +31,5 @@ class Frame : AppCompatActivity() {
         setContentView(R.layout.activity_color)
         this.setTitle(R.string.frame)
     }
-    }
+}
 
