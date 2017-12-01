@@ -4,6 +4,7 @@
 
 opencv-3.3.1-android-sdk.zip
 OpenCV-android-sdk/
+app/src/main/jniLibs/
 
 # Files for the ART/Dalvik VM
 *.dex
