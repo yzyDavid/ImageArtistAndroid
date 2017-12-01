@@ -19,6 +19,7 @@
                 tools:context="com.example.android_grillayout.MainActivity"
         >
         <TextView
+            android:id="@+id/text_one"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
@@ -27,6 +28,7 @@
             android:gravity="center"
             />
         <TextView
+            android:id="@+id/text_two"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
@@ -35,6 +37,7 @@
             android:gravity="center"
             />
         <TextView
+            android:id="@+id/text_three"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
@@ -43,6 +46,7 @@
             android:gravity="center"
             />
         <TextView
+            android:id="@+id/text_four"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
@@ -51,6 +55,7 @@
             android:gravity="center"
             />
         <TextView
+            android:id="@+id/text_five"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="5dp"
