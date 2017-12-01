@@ -20,8 +20,12 @@ import android.widget.ImageView
 
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.util.Log
 
 import org.jetbrains.anko.toast
+import org.opencv.android.BaseLoaderCallback
+import org.opencv.android.LoaderCallbackInterface
+import org.opencv.android.OpenCVLoader
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.io.File
@@ -52,8 +56,24 @@ class MainActivity : AppCompatActivity() {
 
         this.setTitle(R.string.app_name)
         mImage = findViewById(R.id.imageView)
-
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, loaderCallback)
+    }
+
+    inner class LoaderCallback : BaseLoaderCallback(this) {
+        override fun onManagerConnected(status: Int) {
+            Log.i("OpenCV", if (status == BaseLoaderCallback.SUCCESS) "Success" else "Failed")
+            if (status != LoaderCallbackInterface.SUCCESS) {
+                super.onManagerConnected(status)
+            }
+        }
+    }
+
+    private val loaderCallback = LoaderCallback()
 
     fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)

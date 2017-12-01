@@ -9,3 +9,4 @@
   - new Eclipse ADT module opencv.
   - for app: add module dependency loaded.
 - copy OpenCV-android-sdk/sdk/native/libs to app/src/main/jniLibs
+- you may install the OpenCV Manager from OpenCV-android-sdk/apk
