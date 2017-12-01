@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/stylize_area"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
@@ -9,4 +10,22 @@
     android:id="@+id/stylize_photo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/function_bar"
+                  android:layout_width="fill_parent"
+                  android:layout_height="65dp"
+                  android:orientation="horizontal"
+                  android:gravity="center">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/choosepic_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/add_small"
+        app:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        >
+    </android.support.design.widget.FloatingActionButton>
+    </LinearLayout>
 </LinearLayout>

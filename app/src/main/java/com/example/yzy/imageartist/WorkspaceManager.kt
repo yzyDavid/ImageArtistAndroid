@@ -7,4 +7,5 @@ import android.graphics.Bitmap
  */
 object WorkspaceManager {
     public var bitmap: Bitmap? = null
+    public var stylize_bitmap: Bitmap? = null
 }
