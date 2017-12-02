@@ -1,27 +1,33 @@
 package com.example.yzy.imageartist
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Environment
 import android.util.Base64
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import org.opencv.android.Utils
+import org.opencv.core.CvType
+import org.opencv.core.Mat
+import org.opencv.core.Size
+import org.opencv.imgproc.Imgproc
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.*
 import java.io.File
+import java.io.FileOutputStream
 
 class StylizeModel(private val activity: Editor) {
     interface StylizeService {
-        @Multipart
         @POST("upload_image")
-        fun uploadImage(@Header("authorization") credential: String, @Part part: MultipartBody.Part): Call<ResponseBody>
+        fun uploadImage(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
 
-        @Multipart
         @POST("upload_style")
-        fun uploadStyle(@Header("authorization") credential: String, @Part part: MultipartBody.Part): Call<ResponseBody>
+        fun uploadStyle(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
 
         @POST("transfer")
         fun getTransfer(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
@@ -35,9 +41,18 @@ class StylizeModel(private val activity: Editor) {
     private var imageText: String? = null
     private var styleText: String? = null
 
-    fun uploadImage(image: File) {
+    fun uploadImage(image: Bitmap) {
+        val imageFile = toImageFile(image)
+        val resizedImage = BitmapFactory.decodeFile(imageFile.name)
+        val width = resizedImage.width
+        val height = resizedImage.height
+
         imageText = null
-        val requestBody = MultipartBody.Part.createFormData("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
+                .addFormDataPart("width", width.toString())
+                .addFormDataPart("height", height.toString())
+                .build()
         val callUploadImage = service.uploadImage(credential, requestBody)
         callUploadImage.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
@@ -51,9 +66,18 @@ class StylizeModel(private val activity: Editor) {
         })
     }
 
-    fun uploadStyle(image: File) {
+    fun uploadStyle(image: Bitmap) {
+        val imageFile = toImageFile(image)
+        val resizedImage = BitmapFactory.decodeFile(imageFile.name)
+        val width = resizedImage.width
+        val height = resizedImage.height
+
         styleText = null
-        val requestBody = MultipartBody.Part.createFormData("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
+                .addFormDataPart("width", width.toString())
+                .addFormDataPart("height", height.toString())
+                .build()
         val callUploadStyle = service.uploadStyle(credential, requestBody)
         callUploadStyle.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
@@ -85,5 +109,29 @@ class StylizeModel(private val activity: Editor) {
                 RuntimeException(t!!.message)
             }
         })
+    }
+
+    private fun toImageFile(image: Bitmap): File {
+        val width = image.width
+        val height = image.height
+        val filename = "ImageArtist_" + System.currentTimeMillis()
+        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        val imageFile = File.createTempFile(filename, ".jpg", storageDir)
+        val os = FileOutputStream(imageFile)
+        image.compress(Bitmap.CompressFormat.JPEG, 100, os)
+        os.flush()
+        val size = imageFile.length()
+        if (size > 1024 * 1024) {
+            val ratio = (size / 1000 / 1000).toInt()
+            val matImage = Mat(height, width, CvType.CV_8UC3)
+            Utils.bitmapToMat(image, matImage)
+            Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
+            val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
+            Utils.matToBitmap(matImage, resizedImage)
+            image.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            os.flush()
+        }
+        os.close()
+        return imageFile
     }
 }

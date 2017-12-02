@@ -23,7 +23,7 @@ class Editor : AppCompatActivity(), Formatter {
     private lateinit var mStylizeText: TextView
     private lateinit var mImportText: TextView
     private lateinit var inflate: View
-    public lateinit var mPhoto: ImageView
+    lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
     private lateinit var mToolText: TextView
     private lateinit var mColorText: TextView
@@ -54,7 +54,7 @@ class Editor : AppCompatActivity(), Formatter {
 
     }
 
-    public fun show(view: View) {
+    fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.tool_selection, null)
         mColorText = inflate.findViewById(R.id.color_text)
