@@ -9,7 +9,7 @@
     <string name="album">相册</string>
     <string name="SelectFromCamera">拍照</string>
     <string name="SelectFromAlbum">从相册中选择</string>
-    <string name="Cancle">取消</string>
+    <string name="Cancel">取消</string>
     <string name="SelectRule">点击任意位置选择图片</string>
     <string name="Editor">编辑图片</string>
     <string name="choose_color">主题色化</string>
