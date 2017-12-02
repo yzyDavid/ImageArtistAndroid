@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.*
 import android.widget.*
 import android.widget.NumberPicker.Formatter
@@ -25,7 +26,7 @@ class Editor : AppCompatActivity(), Formatter {
     private lateinit var mStylizeText: TextView
     private lateinit var mImportText: TextView
     private lateinit var inflate: View
-    public lateinit var mPhoto: ImageView
+    lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
     private lateinit var mToolText: TextView
     private lateinit var mColorText: TextView
@@ -52,13 +53,9 @@ class Editor : AppCompatActivity(), Formatter {
             val intent = Intent(this, Stylize::class.java)
             startActivity(intent)
         }
-      /*  mImportText.setOnClickListener {
-            val intent = Intent(this, Import::class.java)
-            startActivity(intent)
-        }*/
-
     }
-    public fun export(view: View){
+
+    fun export(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.layout_export, null)
         mShareText = inflate.findViewById(R.id.share_text)
@@ -69,32 +66,31 @@ class Editor : AppCompatActivity(), Formatter {
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
         lp.alpha = 9f
         inflate.measure(0, 0)
-        lp.height = 400
-       // lp.width = inflate.measuredWidth
+        lp.height = 600
         dialogWindow.attributes = lp
         mDialog.show()
-        mSaveText.setOnClickListener{
+        mSaveText.setOnClickListener {
             val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val fileName = "ImageArtist_" + System.currentTimeMillis()
             val image = File.createTempFile(fileName, ".jpg", storageDir)
-            photoPath=image.absolutePath
+            photoPath = image.absolutePath
+            Log.i("saver", photoPath)
             try {
-                val fos: FileOutputStream = FileOutputStream(image)
-                val IsSuccess = bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+                val fos = FileOutputStream(image)
+                bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
                 fos.flush()
                 fos.close()
-            }catch (e: FileNotFoundException){
+            } catch (e: FileNotFoundException) {
                 e.printStackTrace()
-            }catch (e: IOException){
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
-            Toast.makeText(this,R.string.success_saved,Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.success_saved, Toast.LENGTH_SHORT).show()
             mDialog.dismiss()
         }
-
     }
 
-    public fun show(view: View) {
+    fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.tool_selection, null)
         mColorText = inflate.findViewById(R.id.color_text)
@@ -125,7 +121,6 @@ class Editor : AppCompatActivity(), Formatter {
             startActivity(intent)
             mDialog.dismiss()
         }
-
     }
 
     override fun format(value: Int): String {
