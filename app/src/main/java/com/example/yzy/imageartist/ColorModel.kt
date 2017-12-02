@@ -1,6 +1,8 @@
 package com.example.yzy.imageartist
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Environment
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import okhttp3.MediaType
@@ -14,8 +16,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.io.File
+import java.io.FileOutputStream
+import org.opencv.core.CvType
+import org.opencv.core.Mat
+import org.opencv.android.Utils
+import org.opencv.core.Size
+import org.opencv.imgproc.Imgproc
 
-class ColorModel(private val activity: Editor) {
+class ColorModel(private val activity: Color) {
     interface ColorService {
         @GET("hello")
         fun getTest(@Header("authorization") credential: String): Call<ResponseBody>
@@ -45,9 +53,10 @@ class ColorModel(private val activity: Editor) {
         // TODO: activity create a progress bar to wait network response
     }
 
-    fun getThemeColor(image: File, count: Int) {
+    fun getThemeColor(image: Bitmap, count: Int) {
+        val imageFile = toImageFile(image)
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("image", image.name, RequestBody.create(MediaType.parse("image/jpeg"), image))
+                .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
                 .addFormDataPart("count", count.toString())
                 .build()
         val callThemeColor = service.getThemeColor(credential, requestBody)
@@ -56,7 +65,7 @@ class ColorModel(private val activity: Editor) {
                 val themeColorImage = response!!.body()!!
                 val bytes = themeColorImage.bytes()
                 WorkspaceManager.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
+                //activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
                 // TODO: activity stop the progress bar and show the image
             }
 
@@ -65,5 +74,29 @@ class ColorModel(private val activity: Editor) {
             }
         })
         // TODO: activity create a progress bar to wait network response
+    }
+
+    private fun toImageFile(image: Bitmap): File {
+        val height = image.height
+        val width = image.width
+        val filename = "ImageArtist_" + System.currentTimeMillis()
+        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        val imageFile = File.createTempFile(filename, ".jpg", storageDir)
+        val os = FileOutputStream(imageFile)
+        image.compress(Bitmap.CompressFormat.JPEG, 100, os)
+        os.flush()
+        val size = imageFile.length()
+        if (size > 1024 * 1024) {
+            val ratio = (size / 1000 / 1000).toInt()
+            val matImage = Mat(height, width, CvType.CV_8UC3)
+            Utils.bitmapToMat(image, matImage)
+            Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
+            val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
+            Utils.matToBitmap(matImage, resizedImage)
+            image.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            os.flush()
+        }
+        os.close()
+        return imageFile
     }
 }

@@ -86,15 +86,17 @@ class MainActivity : AppCompatActivity() {
         dialogWindow.setGravity(Gravity.BOTTOM)
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
         inflate.measure(0, 0)
-        lp.height = inflate.measuredHeight
+        lp.height = 650
         lp.alpha = 9f
         dialogWindow.attributes = lp
         mDialog.show()
         mButtonChoosePhoto.setOnClickListener {
             selectPhotoWithPermissionCheck(PICTURE)
+            mDialog.dismiss()
         }
         mButtonTakePhoto.setOnClickListener {
             selectPhotoWithPermissionCheck(CAMERA)
+            mDialog.dismiss()
         }
         mButtonCancel.setOnClickListener {
             mDialog.dismiss()

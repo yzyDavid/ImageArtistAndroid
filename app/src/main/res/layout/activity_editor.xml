@@ -46,7 +46,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:text="@string/export"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:onClick="export"/>
            </GridLayout>
     </LinearLayout>
 </LinearLayout>
