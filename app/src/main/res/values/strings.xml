@@ -16,4 +16,5 @@
     <string name="modify">调整细节</string>
     <string name="choose_tool">工具</string>
     <string name="export">导出</string>
+    <string name="main_image">main_image</string>
 </resources>
