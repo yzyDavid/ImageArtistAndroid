@@ -2,18 +2,20 @@ package com.example.yzy.imageartist
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.view.*
-import android.widget.ImageView
-import android.widget.NumberPicker
-import android.widget.TextView
+import android.widget.*
 import android.widget.NumberPicker.Formatter
 import android.widget.NumberPicker.OnValueChangeListener
 import java.io.File
 import java.io.FileOutputStream
-import android.widget.ProgressBar
+import com.example.yzy.imageartist.WorkspaceManager.bitmap
+import java.io.FileNotFoundException
+import java.io.IOException
 
 
 class Editor : AppCompatActivity(), Formatter {
@@ -32,6 +34,7 @@ class Editor : AppCompatActivity(), Formatter {
     private lateinit var mProgressBar: ProgressBar
     private lateinit var mShareText: TextView
     private lateinit var mSaveText: TextView
+    private var photoPath: String = ""
     private var mColorNum: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,8 +76,22 @@ class Editor : AppCompatActivity(), Formatter {
         mSaveText.setOnClickListener{
             val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val fileName = "ImageArtist_" + System.currentTimeMillis()
-
+            val image = File.createTempFile(fileName, ".jpg", storageDir)
+            photoPath=image.absolutePath
+            try {
+                val fos: FileOutputStream = FileOutputStream(image)
+                val IsSuccess = bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+                fos.flush()
+                fos.close()
+            }catch (e: FileNotFoundException){
+                e.printStackTrace()
+            }catch (e: IOException){
+                e.printStackTrace()
+            }
+            Toast.makeText(this,R.string.success_saved,Toast.LENGTH_SHORT).show()
+            mDialog.dismiss()
         }
+
     }
 
     public fun show(view: View) {

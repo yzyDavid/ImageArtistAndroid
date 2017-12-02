@@ -18,4 +18,5 @@
     <string name="export">导出</string>
     <string name="export_to_gallery">保存到设备相册</string>
     <string name="share">分享</string>
+    <string name="success_saved">保存成功</string>
 </resources>
