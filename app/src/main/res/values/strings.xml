@@ -16,4 +16,6 @@
     <string name="modify">调整细节</string>
     <string name="choose_tool">工具</string>
     <string name="export">导出</string>
+    <string name="export_to_gallery">保存到设备相册</string>
+    <string name="share">分享</string>
 </resources>

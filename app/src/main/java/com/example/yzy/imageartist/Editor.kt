@@ -30,6 +30,8 @@ class Editor : AppCompatActivity(), Formatter {
     private lateinit var mFrameText: TextView
     private lateinit var mModifyText: TextView
     private lateinit var mProgressBar: ProgressBar
+    private lateinit var mShareText: TextView
+    private lateinit var mSaveText: TextView
     private var mColorNum: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,11 +49,32 @@ class Editor : AppCompatActivity(), Formatter {
             val intent = Intent(this, Stylize::class.java)
             startActivity(intent)
         }
-        mImportText.setOnClickListener {
+      /*  mImportText.setOnClickListener {
             val intent = Intent(this, Import::class.java)
             startActivity(intent)
-        }
+        }*/
 
+    }
+    public fun export(view: View){
+        mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
+        inflate = LayoutInflater.from(this).inflate(R.layout.layout_export, null)
+        mShareText = inflate.findViewById(R.id.share_text)
+        mSaveText = inflate.findViewById(R.id.save_text)
+        mDialog.setContentView(inflate)
+        val dialogWindow: Window = mDialog.window
+        dialogWindow.setGravity(Gravity.BOTTOM)
+        val lp: WindowManager.LayoutParams = dialogWindow.attributes
+        lp.alpha = 9f
+        inflate.measure(0, 0)
+        lp.height = 400
+       // lp.width = inflate.measuredWidth
+        dialogWindow.attributes = lp
+        mDialog.show()
+        mSaveText.setOnClickListener{
+            val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val fileName = "ImageArtist_" + System.currentTimeMillis()
+
+        }
     }
 
     public fun show(view: View) {
