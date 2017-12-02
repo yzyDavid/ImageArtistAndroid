@@ -64,6 +64,7 @@ class StylizeModel(private val activity: Editor) {
                 RuntimeException(t!!.message)
             }
         })
+        imageFile.delete()
     }
 
     fun uploadStyle(image: Bitmap) {
@@ -89,6 +90,7 @@ class StylizeModel(private val activity: Editor) {
                 RuntimeException(t!!.message)
             }
         })
+        imageFile.delete()
     }
 
     private fun getTransfer() {
