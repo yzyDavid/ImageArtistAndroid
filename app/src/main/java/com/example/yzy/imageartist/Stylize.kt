@@ -1,23 +1,18 @@
 package com.example.yzy.imageartist
 
-import android.support.v7.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Base64
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.Window
-import android.widget.Button
 import android.widget.ImageView
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
 
 class Stylize : AppCompatActivity() {
 
     lateinit var mPhoto: ImageView
+    private val PICTURE = 0
+    private val gallery = GalleryModel(this, PICTURE)
     // private val stylizeModel = StylizeModel(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +34,27 @@ class Stylize : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         super.onOptionsItemSelected(item)
+        when (item?.itemId) {
+            R.id.menu_choose_style -> {
+                gallery.startGallery()
+            }
+            R.id.menu_transfer -> {
+            }
+        }
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        when (requestCode) {
+            PICTURE -> {
+                data?.let {
+                    WorkspaceManager.style = gallery.getBitmap(resultCode, it)
+                }
+            }
+        }
     }
 }
