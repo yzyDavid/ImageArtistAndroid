@@ -1,0 +1,146 @@
+package com.example.yzy.imageartist
+
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Environment
+import android.util.Base64
+import android.widget.Toast
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import org.opencv.android.Utils
+import org.opencv.core.CvType
+import org.opencv.core.Mat
+import org.opencv.core.Size
+import org.opencv.imgproc.Imgproc
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.http.*
+import java.io.File
+import java.io.FileOutputStream
+
+class StylizeModel(private val activity: Stylize) {
+    interface StylizeService {
+        @POST("upload_image")
+        fun uploadImage(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
+
+        @POST("upload_style")
+        fun uploadStyle(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
+
+        @POST("transfer")
+        fun getTransfer(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
+    }
+
+    private val retrofit = Retrofit.Builder()
+            .baseUrl(Config.baseUrl)
+            .build()
+    private val service = retrofit.create(StylizeService::class.java)
+    private val credential = "Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP)
+    private var imageText: String? = null
+    private var styleText: String? = null
+
+    fun uploadImage(image: Bitmap) {
+        val imageFile = toImageFile(image)
+        val resizedImage = BitmapFactory.decodeFile(imageFile.path)
+        val width = resizedImage.width
+        val height = resizedImage.height
+
+        imageText = null
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
+                .addFormDataPart("width", width.toString())
+                .addFormDataPart("height", height.toString())
+                .build()
+        val callUploadImage = service.uploadImage(credential, requestBody)
+        callUploadImage.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                imageText = response!!.body()!!.string()
+                Toast.makeText(activity, "image", Toast.LENGTH_LONG).show()
+                getTransfer()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                RuntimeException(t!!.message)
+            }
+        })
+        imageFile.delete()
+    }
+
+    fun uploadStyle(image: Bitmap) {
+        val imageFile = toImageFile(image)
+        val resizedImage = BitmapFactory.decodeFile(imageFile.path)
+        val width = resizedImage.width
+        val height = resizedImage.height
+
+        styleText = null
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
+                .addFormDataPart("width", width.toString())
+                .addFormDataPart("height", height.toString())
+                .build()
+        val callUploadStyle = service.uploadStyle(credential, requestBody)
+        callUploadStyle.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                styleText = response!!.body()!!.string()
+                Toast.makeText(activity, "style", Toast.LENGTH_LONG).show()
+                getTransfer()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                RuntimeException(t!!.message)
+            }
+        })
+        imageFile.delete()
+    }
+
+    private fun getTransfer() {
+        if (imageText == null || styleText == null) return
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("img", imageText!!)
+                .addFormDataPart("style", styleText!!)
+                .build()
+        val callGetTransfer = service.getTransfer(credential, requestBody)
+        callGetTransfer.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                val bytes = response!!.body()!!.bytes()
+                WorkspaceManager.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
+            }
+
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                RuntimeException(t!!.message)
+            }
+        })
+    }
+
+    private fun toImageFile(image: Bitmap): File {
+        val width = image.width
+        val height = image.height
+        val filename = "ImageArtist_" + System.currentTimeMillis()
+        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        var imageFile = File.createTempFile(filename, ".jpg", storageDir)
+        var os = FileOutputStream(imageFile)
+        image.compress(Bitmap.CompressFormat.JPEG, 100, os)
+        os.flush()
+        val size = imageFile.length()
+        if (size > 1024 * 1024) {
+            val ratio = (size / 1000 / 1000).toInt()
+            val matImage = Mat(height, width, CvType.CV_8UC1)
+            Utils.bitmapToMat(image, matImage)
+            Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
+            val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
+            Utils.matToBitmap(matImage, resizedImage)
+            os.close()
+            imageFile.delete()
+            imageFile = File.createTempFile(filename, ".jpg", storageDir)
+            os = FileOutputStream(imageFile)
+            resizedImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            os.flush()
+        }
+        os.close()
+        return imageFile
+    }
+}

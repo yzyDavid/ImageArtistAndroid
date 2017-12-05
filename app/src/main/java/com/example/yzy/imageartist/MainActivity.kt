@@ -1,8 +1,10 @@
 package com.example.yzy.imageartist
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
@@ -13,16 +15,30 @@ import android.view.*
 import android.widget.Button
 import android.widget.TextView
 import android.provider.MediaStore
+
+import android.widget.ImageView
+
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import android.util.Log
+
 import org.jetbrains.anko.toast
+import org.opencv.android.BaseLoaderCallback
+import org.opencv.android.LoaderCallbackInterface
+import org.opencv.android.OpenCVLoader
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.RuntimePermissions
 import java.io.File
 import java.io.FileOutputStream
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+@RuntimePermissions
 class MainActivity : AppCompatActivity() {
     private val CAMERA: Int = 1
     private val PICTURE: Int = 0
+
     private lateinit var mTextCamera: TextView
     private lateinit var mTextAlbum: TextView
     private lateinit var inflate: View
@@ -30,19 +46,36 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mButtonTakePhoto: Button
     private lateinit var mButtonCancel: Button
     private lateinit var mDialog: Dialog
-
+    private lateinit var mImage: ImageView
     private val galleryModel = GalleryModel(this, PICTURE)
     private val cameraModel = CameraModel(this, CAMERA)
-    private var bitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         this.setTitle(R.string.app_name)
+        mImage = findViewById(R.id.imageView)
     }
 
-    public fun show(view: View) {
+    override fun onResume() {
+        super.onResume()
+
+        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, loaderCallback)
+    }
+
+    inner class LoaderCallback : BaseLoaderCallback(this) {
+        override fun onManagerConnected(status: Int) {
+            Log.i("OpenCV", if (status == BaseLoaderCallback.SUCCESS) "Success" else "Failed")
+            if (status != LoaderCallbackInterface.SUCCESS) {
+                super.onManagerConnected(status)
+            }
+        }
+    }
+
+    private val loaderCallback = LoaderCallback()
+
+    fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.initdialog, null)
         mButtonChoosePhoto = inflate.findViewById(R.id.choosePhoto_button)
@@ -52,31 +85,46 @@ class MainActivity : AppCompatActivity() {
         val dialogWindow: Window = mDialog.window
         dialogWindow.setGravity(Gravity.BOTTOM)
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
-        lp.y = -20
-        lp.x = 0
         inflate.measure(0, 0)
-        lp.height = inflate.measuredHeight
+        lp.height = 650
         lp.alpha = 9f
         dialogWindow.attributes = lp
         mDialog.show()
         mButtonChoosePhoto.setOnClickListener {
-            galleryModel.startGallery()
+            selectPhotoWithPermissionCheck(PICTURE)
+            mDialog.dismiss()
         }
         mButtonTakePhoto.setOnClickListener {
-            cameraModel.startCamera()
+            selectPhotoWithPermissionCheck(CAMERA)
+            mDialog.dismiss()
         }
         mButtonCancel.setOnClickListener {
             mDialog.dismiss()
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        data?.let {
-            when (requestCode) {
-                PICTURE -> bitmap = galleryModel.getBitmap(resultCode, it)
-                CAMERA -> bitmap = cameraModel.getBitmap(resultCode, it)
-            }
+    @NeedsPermission(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    fun selectPhoto(requestCode: Int) {
+        when (requestCode) {
+            PICTURE -> galleryModel.startGallery()
+            CAMERA -> cameraModel.startCamera()
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+
+        when (requestCode) {
+            PICTURE -> WorkspaceManager.bitmap = galleryModel.getBitmap(resultCode, data!!)
+            CAMERA -> WorkspaceManager.bitmap = cameraModel.getBitmap(resultCode)
+        }
+
+        val intent = Intent(this, Editor::class.java)
+        startActivity(intent)
+
+    }
 }
+

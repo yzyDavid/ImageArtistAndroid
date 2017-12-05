@@ -41,7 +41,7 @@
         android:layout_marginTop="16dip"
         android:background="@drawable/selector"
         android:gravity="center"
-        android:text="@string/Cancle"
+        android:text="@string/Cancel"
         android:textColor="@color/darkgrey"
         android:textSize="18sp"
         android:textStyle="bold"/>

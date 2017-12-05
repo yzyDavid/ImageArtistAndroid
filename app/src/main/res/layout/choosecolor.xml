@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="60dp"
+              android:orientation="horizontal"
+              android:paddingBottom="10dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="5dp">
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="6"
+        android:rowCount="1"
+        android:orientation="horizontal"
+        android:id="@+id/choose_color"
+                tools:context="com.example.android_grillayout.MainActivity"
+        >
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:text="5"
+            />
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:text="4"
+            />
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:text="3"
+            />
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:text="2"
+            />
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:text="1"
+            />
+    </GridLayout>
+
+
+</LinearLayout>
