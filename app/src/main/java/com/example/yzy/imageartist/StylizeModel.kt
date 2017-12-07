@@ -94,7 +94,7 @@ class StylizeModel(private val imageView: ImageView) {
         imageFile.delete()
     }
 
-    fun getTransfer() {
+    private fun getTransfer() {
         if (imageText == null || styleText == null) return
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("img", imageText!!)

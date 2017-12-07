@@ -13,7 +13,7 @@ class Stylize : AppCompatActivity() {
     lateinit var mPhoto: ImageView
     private val PICTURE = 0
     private val gallery = GalleryModel(this, PICTURE)
-    private val stylizeModel = StylizeModel(mPhoto)
+    private lateinit var stylizeModel: StylizeModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +24,7 @@ class Stylize : AppCompatActivity() {
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
+        stylizeModel = StylizeModel(mPhoto)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -35,16 +36,11 @@ class Stylize : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         super.onOptionsItemSelected(item)
         when (item?.itemId) {
-            R.id.menu_choose_style -> {
-                gallery.startGallery()
-            }
-            R.id.menu_transfer -> {
-                WorkspaceManager.bitmap?.let { that ->
-                    WorkspaceManager.style?.let {
-                        stylizeModel.uploadImage(that)
-                        stylizeModel.uploadStyle(it)
-                        stylizeModel.getTransfer()
-                    }
+            R.id.menu_choose_style -> gallery.startGallery()
+            R.id.menu_transfer -> WorkspaceManager.bitmap?.let { that ->
+                WorkspaceManager.style?.let {
+                    stylizeModel.uploadImage(that)
+                    stylizeModel.uploadStyle(it)
                 }
             }
         }
