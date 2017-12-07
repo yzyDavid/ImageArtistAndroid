@@ -55,6 +55,7 @@ class ColorModel(private val activity: Color) {
 
     fun getThemeColor(image: Bitmap, count: Int) {
         val imageFile = toImageFile(image)
+        val size = imageFile.length()
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
                 .addFormDataPart("count", count.toString())
@@ -65,7 +66,7 @@ class ColorModel(private val activity: Color) {
                 val themeColorImage = response!!.body()!!
                 val bytes = themeColorImage.bytes()
                 WorkspaceManager.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                //activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
+                activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
                 // TODO: activity stop the progress bar and show the image
             }
 
@@ -81,20 +82,25 @@ class ColorModel(private val activity: Color) {
         val width = image.width
         val filename = "ImageArtist_" + System.currentTimeMillis()
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val imageFile = File.createTempFile(filename, ".jpg", storageDir)
-        val os = FileOutputStream(imageFile)
+        var imageFile = File.createTempFile(filename, ".jpg", storageDir)
+        var os = FileOutputStream(imageFile)
         image.compress(Bitmap.CompressFormat.JPEG, 100, os)
         os.flush()
-        val size = imageFile.length()
+        var size = imageFile.length()
         if (size > 1024 * 1024) {
             val ratio = (size / 1000 / 1000).toInt()
-            val matImage = Mat(height, width, CvType.CV_8UC3)
+            val matImage = Mat(height, width, CvType.CV_8UC1)
             Utils.bitmapToMat(image, matImage)
             Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
             val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
             Utils.matToBitmap(matImage, resizedImage)
-            image.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            os.close()
+            imageFile.delete()
+            imageFile = File.createTempFile(filename, ".jpg", storageDir)
+            os = FileOutputStream(imageFile)
+            resizedImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
             os.flush()
+            size = imageFile.length()
         }
         os.close()
         return imageFile

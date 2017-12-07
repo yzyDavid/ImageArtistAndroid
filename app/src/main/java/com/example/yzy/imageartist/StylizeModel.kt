@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Base64
 import android.widget.ImageView
+import android.widget.Toast
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -44,7 +45,7 @@ class StylizeModel(private val imageView: ImageView) {
 
     fun uploadImage(image: Bitmap) {
         val imageFile = toImageFile(image)
-        val resizedImage = BitmapFactory.decodeFile(imageFile.name)
+        val resizedImage = BitmapFactory.decodeFile(imageFile.path)
         val width = resizedImage.width
         val height = resizedImage.height
 
@@ -58,6 +59,7 @@ class StylizeModel(private val imageView: ImageView) {
         callUploadImage.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 imageText = response!!.body()!!.string()
+                Toast.makeText(activity, "image", Toast.LENGTH_LONG).show()
                 getTransfer()
             }
 
@@ -70,7 +72,7 @@ class StylizeModel(private val imageView: ImageView) {
 
     fun uploadStyle(image: Bitmap) {
         val imageFile = toImageFile(image)
-        val resizedImage = BitmapFactory.decodeFile(imageFile.name)
+        val resizedImage = BitmapFactory.decodeFile(imageFile.path)
         val width = resizedImage.width
         val height = resizedImage.height
 
@@ -84,6 +86,7 @@ class StylizeModel(private val imageView: ImageView) {
         callUploadStyle.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 styleText = response!!.body()!!.string()
+                Toast.makeText(activity, "style", Toast.LENGTH_LONG).show()
                 getTransfer()
             }
 
@@ -119,19 +122,23 @@ class StylizeModel(private val imageView: ImageView) {
         val height = image.height
         val filename = "ImageArtist_" + System.currentTimeMillis()
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val imageFile = File.createTempFile(filename, ".jpg", storageDir)
-        val os = FileOutputStream(imageFile)
+        var imageFile = File.createTempFile(filename, ".jpg", storageDir)
+        var os = FileOutputStream(imageFile)
         image.compress(Bitmap.CompressFormat.JPEG, 100, os)
         os.flush()
         val size = imageFile.length()
         if (size > 1024 * 1024) {
             val ratio = (size / 1000 / 1000).toInt()
-            val matImage = Mat(height, width, CvType.CV_8UC3)
+            val matImage = Mat(height, width, CvType.CV_8UC1)
             Utils.bitmapToMat(image, matImage)
             Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
             val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
             Utils.matToBitmap(matImage, resizedImage)
-            image.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            os.close()
+            imageFile.delete()
+            imageFile = File.createTempFile(filename, ".jpg", storageDir)
+            os = FileOutputStream(imageFile)
+            resizedImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
             os.flush()
         }
         os.close()
