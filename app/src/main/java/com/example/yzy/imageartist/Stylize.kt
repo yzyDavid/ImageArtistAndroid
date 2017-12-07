@@ -24,7 +24,7 @@ class Stylize : AppCompatActivity() {
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
-        stylizeModel = StylizeModel(mPhoto)
+        stylizeModel = StylizeModel(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

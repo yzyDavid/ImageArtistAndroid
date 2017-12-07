@@ -5,10 +5,8 @@ import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Base64
 import android.widget.ImageView
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
+import android.widget.Toast
+import okhttp3.*
 import org.opencv.android.Utils
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -22,7 +20,7 @@ import retrofit2.http.*
 import java.io.File
 import java.io.FileOutputStream
 
-class StylizeModel(private val imageView: ImageView) {
+class StylizeModel(private val activity: Stylize) {
     interface StylizeService {
         @POST("upload_image")
         fun uploadImage(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
@@ -36,7 +34,13 @@ class StylizeModel(private val imageView: ImageView) {
 
     private val retrofit = Retrofit.Builder()
             .baseUrl(Config.baseUrl)
-            .build()
+            .client(
+                    OkHttpClient.Builder()
+                            .readTimeout(Config.timeout, Config.timeoutUnit)
+                            .writeTimeout(Config.timeout, Config.timeoutUnit)
+                            .connectTimeout(Config.timeout, Config.timeoutUnit)
+                            .build()
+            ).build()
     private val service = retrofit.create(StylizeService::class.java)
     private val credential = "Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP)
     private var imageText: String? = null
@@ -62,7 +66,7 @@ class StylizeModel(private val imageView: ImageView) {
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                RuntimeException(t!!.message)
+                Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
         imageFile.delete()
@@ -88,7 +92,7 @@ class StylizeModel(private val imageView: ImageView) {
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                RuntimeException(t!!.message)
+                Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
         imageFile.delete()
@@ -105,11 +109,11 @@ class StylizeModel(private val imageView: ImageView) {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 val bytes = response!!.body()!!.bytes()
                 WorkspaceManager.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                imageView.setImageBitmap(WorkspaceManager.bitmap)
+                activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                RuntimeException(t!!.message)
+                Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
     }
