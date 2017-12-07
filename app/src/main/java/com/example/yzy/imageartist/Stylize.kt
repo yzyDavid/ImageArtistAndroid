@@ -13,7 +13,7 @@ class Stylize : AppCompatActivity() {
     lateinit var mPhoto: ImageView
     private val PICTURE = 0
     private val gallery = GalleryModel(this, PICTURE)
-    // private val stylizeModel = StylizeModel(this)
+    private val stylizeModel = StylizeModel(mPhoto)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +39,13 @@ class Stylize : AppCompatActivity() {
                 gallery.startGallery()
             }
             R.id.menu_transfer -> {
+                WorkspaceManager.bitmap?.let { that ->
+                    WorkspaceManager.style?.let {
+                        stylizeModel.uploadImage(that)
+                        stylizeModel.uploadStyle(it)
+                        stylizeModel.getTransfer()
+                    }
+                }
             }
         }
         return true

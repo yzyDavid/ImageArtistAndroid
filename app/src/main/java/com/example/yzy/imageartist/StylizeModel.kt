@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Base64
+import android.widget.ImageView
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -21,7 +22,7 @@ import retrofit2.http.*
 import java.io.File
 import java.io.FileOutputStream
 
-class StylizeModel(private val activity: Editor) {
+class StylizeModel(private val imageView: ImageView) {
     interface StylizeService {
         @POST("upload_image")
         fun uploadImage(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
@@ -93,7 +94,7 @@ class StylizeModel(private val activity: Editor) {
         imageFile.delete()
     }
 
-    private fun getTransfer() {
+    fun getTransfer() {
         if (imageText == null || styleText == null) return
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("img", imageText!!)
@@ -104,7 +105,7 @@ class StylizeModel(private val activity: Editor) {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 val bytes = response!!.body()!!.bytes()
                 WorkspaceManager.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
+                imageView.setImageBitmap(WorkspaceManager.bitmap)
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
