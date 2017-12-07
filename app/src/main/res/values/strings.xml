@@ -22,4 +22,5 @@
     <string name="success_saved">保存成功</string>
     <string name="choose_style">选取风格</string>
     <string name="transfer">转换</string>
+    <string name="image_to_edit">Image to edit</string>
 </resources>

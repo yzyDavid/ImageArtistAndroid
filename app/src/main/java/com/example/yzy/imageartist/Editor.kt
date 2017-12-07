@@ -21,8 +21,6 @@ import java.io.IOException
 
 class Editor : AppCompatActivity(), Formatter {
 
-    private lateinit var mNumPicker: NumberPicker
-    private lateinit var mChooseColorNum: TextView
     private lateinit var mStylizeText: TextView
     private lateinit var mImportText: TextView
     private lateinit var inflate: View
@@ -32,11 +30,9 @@ class Editor : AppCompatActivity(), Formatter {
     private lateinit var mColorText: TextView
     private lateinit var mFrameText: TextView
     private lateinit var mModifyText: TextView
-    private lateinit var mProgressBar: ProgressBar
     private lateinit var mShareText: TextView
     private lateinit var mSaveText: TextView
     private var photoPath: String = ""
-    private var mColorNum: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
