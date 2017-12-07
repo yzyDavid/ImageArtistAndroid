@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Base64
 import android.widget.ImageView
-import android.widget.Toast
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -59,7 +58,6 @@ class StylizeModel(private val imageView: ImageView) {
         callUploadImage.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 imageText = response!!.body()!!.string()
-                Toast.makeText(activity, "image", Toast.LENGTH_LONG).show()
                 getTransfer()
             }
 
@@ -86,7 +84,6 @@ class StylizeModel(private val imageView: ImageView) {
         callUploadStyle.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 styleText = response!!.body()!!.string()
-                Toast.makeText(activity, "style", Toast.LENGTH_LONG).show()
                 getTransfer()
             }
 
