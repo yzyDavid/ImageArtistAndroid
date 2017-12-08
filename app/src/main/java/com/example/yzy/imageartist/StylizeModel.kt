@@ -69,7 +69,6 @@ class StylizeModel(private val activity: Stylize) {
                 Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
-        imageFile.delete()
     }
 
     fun uploadStyle(image: Bitmap) {
@@ -95,7 +94,6 @@ class StylizeModel(private val activity: Stylize) {
                 Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
-        imageFile.delete()
     }
 
     private fun getTransfer() {
