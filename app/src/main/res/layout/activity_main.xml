@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/init_layout"
-    android:onClick="show"
+    android:onClick="showTools"
 
     tools:context="com.example.yzy.imageartist.MainActivity">
 

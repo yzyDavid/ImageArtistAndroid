@@ -6,12 +6,10 @@ import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import android.widget.*
 import android.widget.NumberPicker.Formatter
-import android.widget.NumberPicker.OnValueChangeListener
 import java.io.File
 import java.io.FileOutputStream
 import com.example.yzy.imageartist.WorkspaceManager.bitmap
@@ -22,9 +20,9 @@ import java.io.IOException
 class Editor : AppCompatActivity(), Formatter {
 
     private lateinit var mStylizeText: TextView
-    private lateinit var mImportText: TextView
+    private lateinit var mExportText: TextView
     private lateinit var inflate: View
-    lateinit var mPhoto: ImageView
+    private lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
     private lateinit var mToolText: TextView
     private lateinit var mColorText: TextView
@@ -41,7 +39,7 @@ class Editor : AppCompatActivity(), Formatter {
         mPhoto = findViewById(R.id.photo)
         mStylizeText = findViewById(R.id.stylize_text)
         mToolText = findViewById(R.id.tool_text)
-        mImportText = findViewById(R.id.import_text)
+        mExportText = findViewById(R.id.export_text)
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
@@ -49,9 +47,11 @@ class Editor : AppCompatActivity(), Formatter {
             val intent = Intent(this, Stylize::class.java)
             startActivity(intent)
         }
+        mToolText.setOnClickListener { showTools(it) }
+        mExportText.setOnClickListener { export(it) }
     }
 
-    fun export(view: View) {
+    private fun export(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.layout_export, null)
         mShareText = inflate.findViewById(R.id.share_text)
@@ -86,7 +86,7 @@ class Editor : AppCompatActivity(), Formatter {
         }
     }
 
-    fun show(view: View) {
+    private fun showTools(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.tool_selection, null)
         mColorText = inflate.findViewById(R.id.color_text)
