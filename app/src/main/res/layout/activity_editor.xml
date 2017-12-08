@@ -34,15 +34,13 @@
         <TextView
             android:id="@+id/tool_text"
             android:gravity="center"
-            android:onClick="show"
             android:text="@string/choose_tool"
             app:layout_columnWeight="1"
             app:layout_gravity="fill" />
 
         <TextView
-            android:id="@+id/import_text"
+            android:id="@+id/export_text"
             android:gravity="center"
-            android:onClick="export"
             android:text="@string/export"
             app:layout_columnWeight="1"
             app:layout_gravity="fill" />
