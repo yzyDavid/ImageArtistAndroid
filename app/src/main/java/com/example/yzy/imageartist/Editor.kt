@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.support.v4.content.FileProvider
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -47,7 +48,7 @@ class Editor : AppCompatActivity(), Formatter {
             val intent = Intent(this, Stylize::class.java)
             startActivity(intent)
         }
-        mToolText.setOnClickListener { showTools(it) }
+        mToolText.setOnClickListener { show(it) }
         mExportText.setOnClickListener { export(it) }
     }
 
@@ -65,28 +66,43 @@ class Editor : AppCompatActivity(), Formatter {
         lp.height = 600
         dialogWindow.attributes = lp
         mDialog.show()
+        mShareText.setOnClickListener {
+            val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val fileName = "ImageArtist_" + System.currentTimeMillis()
+            val image = File.createTempFile(fileName, ".jpg", storageDir)
+            photoPath = image.absolutePath
+            Log.i("saver", photoPath)
+            val fos = FileOutputStream(image)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+            fos.flush()
+            fos.close()
+
+            val photoUri = FileProvider.getUriForFile(this, "com.example.yzy.imageartist", image)
+
+            Intent(Intent.ACTION_SEND).let {
+                it.type = "image/jpeg"
+                it.putExtra(Intent.EXTRA_STREAM, photoUri)
+                startActivity(Intent.createChooser(it, "分享"))
+            }
+            mDialog.dismiss()
+        }
         mSaveText.setOnClickListener {
             val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val fileName = "ImageArtist_" + System.currentTimeMillis()
             val image = File.createTempFile(fileName, ".jpg", storageDir)
             photoPath = image.absolutePath
             Log.i("saver", photoPath)
-            try {
-                val fos = FileOutputStream(image)
-                bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
-                fos.flush()
-                fos.close()
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+            val fos = FileOutputStream(image)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+            fos.flush()
+            fos.close()
             Toast.makeText(this, R.string.success_saved, Toast.LENGTH_SHORT).show()
             mDialog.dismiss()
         }
     }
 
-    private fun showTools(view: View) {
+    // do not modify the name below!
+    private fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.tool_selection, null)
         mColorText = inflate.findViewById(R.id.color_text)
