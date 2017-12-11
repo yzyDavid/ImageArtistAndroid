@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.ImageView
 import org.opencv.core.Mat
 import org.opencv.imgproc.Imgproc
+import com.example.yzy.imageartist.Utils
 
 class Modify : AppCompatActivity() {
     lateinit var mPhoto: ImageView
@@ -36,6 +37,12 @@ class Modify : AppCompatActivity() {
 
     private fun contrastAdd() {
         WorkspaceManager.bitmap?.let {
+            val mat = it.toMat()
+            val target = Mat.zeros(mat.size(), mat.type())
+            mat.convertTo(target, mat.type(), Config.contrastAlphaIncrease, 0.toDouble())
+            val result = target.toBitmap()
+            WorkspaceManager.bitmap = result
+            mPhoto.setImageBitmap(result)
         }
     }
 }

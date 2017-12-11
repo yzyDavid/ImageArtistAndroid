@@ -8,4 +8,7 @@ object Config {
 
     val timeout: Long = 20
     val timeoutUnit = TimeUnit.SECONDS
+
+    val contrastAlphaIncrease = 1.05
+    val contrastAlphaDecrease = 0.95
 }
