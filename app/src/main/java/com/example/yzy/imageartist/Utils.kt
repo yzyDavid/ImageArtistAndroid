@@ -16,4 +16,10 @@ object Utils {
         CvUtils.bitmapToMat(tmpBitmap, mat)
         return mat
     }
+
+    public fun toBitmap(mat: Mat): Bitmap {
+        val result = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888)
+        CvUtils.matToBitmap(mat, result)
+        return result
+    }
 }
