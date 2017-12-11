@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import org.opencv.core.Mat
+import org.opencv.imgproc.Imgproc
 
 class Modify : AppCompatActivity() {
     lateinit var mPhoto: ImageView
@@ -27,14 +29,13 @@ class Modify : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         super.onOptionsItemSelected(item)
         when (item?.itemId) {
-            R.id.menu_change_contrast -> null
+            R.id.menu_change_contrast -> contrastAdd()
         }
         return true
     }
 
-    fun contrastAdd() {
+    private fun contrastAdd() {
         WorkspaceManager.bitmap?.let {
-
         }
     }
 }
