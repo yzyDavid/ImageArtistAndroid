@@ -19,10 +19,22 @@ class Modify : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return super.onCreateOptionsMenu(menu)
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu_modify, menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return super.onOptionsItemSelected(item)
+        super.onOptionsItemSelected(item)
+        when (item?.itemId) {
+            R.id.menu_change_contrast -> null
+        }
+        return true
+    }
+
+    fun contrastAdd() {
+        WorkspaceManager.bitmap?.let {
+
+        }
     }
 }
