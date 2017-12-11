@@ -21,7 +21,6 @@ import android.widget.ImageView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.widget.ProgressBar
 
 import org.jetbrains.anko.toast
 import org.opencv.android.BaseLoaderCallback
@@ -44,8 +43,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mButtonChoosePhoto: Button
     private lateinit var mButtonTakePhoto: Button
     private lateinit var mButtonCancel: Button
-    private lateinit var mButtonTest: Button
-   // private lateinit var mProcessBar: ProgressBar
     private lateinit var mDialog: Dialog
     private lateinit var mImage: ImageView
     private val galleryModel = GalleryModel(this, PICTURE)
@@ -79,7 +76,6 @@ class MainActivity : AppCompatActivity() {
     fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.initdialog, null)
-        inflate
         mButtonChoosePhoto = inflate.findViewById(R.id.choosePhoto_button)
         mButtonTakePhoto = inflate.findViewById(R.id.takePhoto_button)
         mButtonCancel = inflate.findViewById(R.id.cancle_button)
@@ -87,13 +83,10 @@ class MainActivity : AppCompatActivity() {
         val dialogWindow: Window = mDialog.window
         dialogWindow.setGravity(Gravity.BOTTOM)
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
-        //inflate.measure(0, 0)
-       // lp.x = 0
-       // lp.y = -20
-        //lp.alpha = 9f
-        inflate.measure(0,0)
-         lp.height = inflate.measuredHeight
-        dialogWindow.attributes= lp
+        inflate.measure(0, 0)
+        lp.height = 650
+        lp.alpha = 9f
+        dialogWindow.attributes = lp
         mDialog.show()
         mButtonChoosePhoto.setOnClickListener {
             selectPhotoWithPermissionCheck(PICTURE)
@@ -132,4 +125,3 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
-

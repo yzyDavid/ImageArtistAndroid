@@ -59,14 +59,12 @@ class Editor : AppCompatActivity(), Formatter {
         mSaveText = inflate.findViewById(R.id.save_text)
         mDialog.setContentView(inflate)
         val dialogWindow: Window = mDialog.window
-       // dialogWindow.setGravity(Gravity.BOTTOM)
+        dialogWindow.setGravity(Gravity.BOTTOM)
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
         lp.alpha = 9f
         inflate.measure(0, 0)
-        lp.y = 10
-        lp.height = inflate.measuredHeight
+        lp.height = 600
         dialogWindow.attributes = lp
-        dialogWindow.setGravity(Gravity.BOTTOM)
         mDialog.show()
         mShareText.setOnClickListener {
             val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)

@@ -1,37 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/stylize_area"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
               android:gravity="bottom">
-
-    <ImageView
-        android:id="@+id/stylize_photo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/main_image"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:gravity="center"
-        android:paddingBottom="7dp">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/choosepic_button"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_margin="6dp"
-            android:layout_marginBottom="15dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/add_small"
-            app:backgroundTint="@color/lightgrey"
-            app:elevation="6dp"
-            app:fabSize="normal"
-            app:pressedTranslationZ="12dp"
-            />
-    </LinearLayout>
-
+<ImageView
+    android:id="@+id/stylize_photo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/main_image" />
 </LinearLayout>

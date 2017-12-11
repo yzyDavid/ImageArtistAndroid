@@ -2,11 +2,10 @@ package com.example.yzy.imageartist
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
 import android.widget.ImageView
 
 class Stylize : AppCompatActivity() {
@@ -15,7 +14,6 @@ class Stylize : AppCompatActivity() {
     private val PICTURE = 0
     private val gallery = GalleryModel(this, PICTURE)
     private lateinit var stylizeModel: StylizeModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +24,6 @@ class Stylize : AppCompatActivity() {
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
-
         stylizeModel = StylizeModel(this)
     }
 
@@ -34,7 +31,6 @@ class Stylize : AppCompatActivity() {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_style, menu)
         return true
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -64,16 +60,4 @@ class Stylize : AppCompatActivity() {
             }
         }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
-
-        when (requestCode) {
-            PICTURE -> WorkspaceManager.style = galleryModel.getBitmap(resultCode, data!!)
-        }
-
-    }
-
 }
