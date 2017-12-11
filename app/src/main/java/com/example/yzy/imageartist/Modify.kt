@@ -2,10 +2,12 @@ package com.example.yzy.imageartist
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 
 class Modify : AppCompatActivity() {
-    public lateinit var mPhoto: ImageView
+    lateinit var mPhoto: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_modify)
@@ -14,5 +16,13 @@ class Modify : AppCompatActivity() {
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return super.onOptionsItemSelected(item)
     }
 }
