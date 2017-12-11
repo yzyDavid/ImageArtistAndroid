@@ -41,9 +41,6 @@ class Editor : AppCompatActivity(), Formatter {
         mStylizeText = findViewById(R.id.stylize_text)
         mToolText = findViewById(R.id.tool_text)
         mExportText = findViewById(R.id.export_text)
-        WorkspaceManager.bitmap?.let {
-            mPhoto.setImageBitmap(it)
-        }
         mStylizeText.setOnClickListener {
             val intent = Intent(this, Stylize::class.java)
             startActivity(intent)
@@ -141,5 +138,12 @@ class Editor : AppCompatActivity(), Formatter {
             tmpStr = tmpStr
         }
         return tmpStr
+    }
+
+    override fun onResume() {
+        super.onResume()
+        WorkspaceManager.bitmap?.let {
+            mPhoto.setImageBitmap(it)
+        }
     }
 }
