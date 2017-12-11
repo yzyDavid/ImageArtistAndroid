@@ -6,12 +6,11 @@ import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
+import android.support.v4.content.FileProvider
 import android.util.Log
 import android.view.*
 import android.widget.*
 import android.widget.NumberPicker.Formatter
-import android.widget.NumberPicker.OnValueChangeListener
 import java.io.File
 import java.io.FileOutputStream
 import com.example.yzy.imageartist.WorkspaceManager.bitmap
@@ -21,22 +20,18 @@ import java.io.IOException
 
 class Editor : AppCompatActivity(), Formatter {
 
-    private lateinit var mNumPicker: NumberPicker
-    private lateinit var mChooseColorNum: TextView
     private lateinit var mStylizeText: TextView
-    private lateinit var mImportText: TextView
+    private lateinit var mExportText: TextView
     private lateinit var inflate: View
-    lateinit var mPhoto: ImageView
+    private lateinit var mPhoto: ImageView
     private lateinit var mDialog: Dialog
     private lateinit var mToolText: TextView
     private lateinit var mColorText: TextView
     private lateinit var mFrameText: TextView
     private lateinit var mModifyText: TextView
-    private lateinit var mProgressBar: ProgressBar
     private lateinit var mShareText: TextView
     private lateinit var mSaveText: TextView
     private var photoPath: String = ""
-    private var mColorNum: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +40,7 @@ class Editor : AppCompatActivity(), Formatter {
         mPhoto = findViewById(R.id.photo)
         mStylizeText = findViewById(R.id.stylize_text)
         mToolText = findViewById(R.id.tool_text)
-        mImportText = findViewById(R.id.import_text)
+        mExportText = findViewById(R.id.export_text)
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
@@ -53,9 +48,11 @@ class Editor : AppCompatActivity(), Formatter {
             val intent = Intent(this, Stylize::class.java)
             startActivity(intent)
         }
+        mToolText.setOnClickListener { show(it) }
+        mExportText.setOnClickListener { export(it) }
     }
 
-    fun export(view: View) {
+    private fun export(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.layout_export, null)
         mShareText = inflate.findViewById(R.id.share_text)
@@ -71,28 +68,43 @@ class Editor : AppCompatActivity(), Formatter {
         dialogWindow.attributes = lp
         dialogWindow.setGravity(Gravity.BOTTOM)
         mDialog.show()
+        mShareText.setOnClickListener {
+            val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val fileName = "ImageArtist_" + System.currentTimeMillis()
+            val image = File.createTempFile(fileName, ".jpg", storageDir)
+            photoPath = image.absolutePath
+            Log.i("saver", photoPath)
+            val fos = FileOutputStream(image)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+            fos.flush()
+            fos.close()
+
+            val photoUri = FileProvider.getUriForFile(this, "com.example.yzy.imageartist", image)
+
+            Intent(Intent.ACTION_SEND).let {
+                it.type = "image/jpeg"
+                it.putExtra(Intent.EXTRA_STREAM, photoUri)
+                startActivity(Intent.createChooser(it, "分享"))
+            }
+            mDialog.dismiss()
+        }
         mSaveText.setOnClickListener {
             val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val fileName = "ImageArtist_" + System.currentTimeMillis()
             val image = File.createTempFile(fileName, ".jpg", storageDir)
             photoPath = image.absolutePath
             Log.i("saver", photoPath)
-            try {
-                val fos = FileOutputStream(image)
-                bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
-                fos.flush()
-                fos.close()
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+            val fos = FileOutputStream(image)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+            fos.flush()
+            fos.close()
             Toast.makeText(this, R.string.success_saved, Toast.LENGTH_SHORT).show()
             mDialog.dismiss()
         }
     }
 
-    fun show(view: View) {
+    // do not modify the name below!
+    private fun show(view: View) {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.tool_selection, null)
         mColorText = inflate.findViewById(R.id.color_text)

@@ -40,8 +40,6 @@ class MainActivity : AppCompatActivity() {
     private val CAMERA: Int = 1
     private val PICTURE: Int = 0
 
-    private lateinit var mTextCamera: TextView
-    private lateinit var mTextAlbum: TextView
     private lateinit var inflate: View
     private lateinit var mButtonChoosePhoto: Button
     private lateinit var mButtonTakePhoto: Button

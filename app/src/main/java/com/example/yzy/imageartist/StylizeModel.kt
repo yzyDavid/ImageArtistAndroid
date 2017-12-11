@@ -4,11 +4,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Base64
+import android.widget.ImageView
 import android.widget.Toast
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
+import okhttp3.*
 import org.opencv.android.Utils
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -36,7 +34,13 @@ class StylizeModel(private val activity: Stylize) {
 
     private val retrofit = Retrofit.Builder()
             .baseUrl(Config.baseUrl)
-            .build()
+            .client(
+                    OkHttpClient.Builder()
+                            .readTimeout(Config.timeout, Config.timeoutUnit)
+                            .writeTimeout(Config.timeout, Config.timeoutUnit)
+                            .connectTimeout(Config.timeout, Config.timeoutUnit)
+                            .build()
+            ).build()
     private val service = retrofit.create(StylizeService::class.java)
     private val credential = "Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP)
     private var imageText: String? = null
@@ -58,15 +62,13 @@ class StylizeModel(private val activity: Stylize) {
         callUploadImage.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 imageText = response!!.body()!!.string()
-                Toast.makeText(activity, "image", Toast.LENGTH_LONG).show()
                 getTransfer()
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                RuntimeException(t!!.message)
+                Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
-        imageFile.delete()
     }
 
     fun uploadStyle(image: Bitmap) {
@@ -85,15 +87,13 @@ class StylizeModel(private val activity: Stylize) {
         callUploadStyle.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 styleText = response!!.body()!!.string()
-                Toast.makeText(activity, "style", Toast.LENGTH_LONG).show()
                 getTransfer()
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                RuntimeException(t!!.message)
+                Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
-        imageFile.delete()
     }
 
     private fun getTransfer() {
@@ -111,7 +111,7 @@ class StylizeModel(private val activity: Stylize) {
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                RuntimeException(t!!.message)
+                Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
     }
