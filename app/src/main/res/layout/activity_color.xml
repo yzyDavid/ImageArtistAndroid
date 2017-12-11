@@ -92,7 +92,7 @@
             android:textSize="12dp"/>
 
         <ProgressBar
-            android:id="@+id/progressbar"
+            android:id="@+id/progressbar_color"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="220dp"
             android:layout_height="17dp"

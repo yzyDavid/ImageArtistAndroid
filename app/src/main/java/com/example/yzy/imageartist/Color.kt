@@ -14,7 +14,7 @@ class Color : AppCompatActivity() {
         setContentView(R.layout.activity_color)
         this.setTitle(R.string.choose_color)
         mPhoto = findViewById(R.id.color_photo)
-        mProgressBar = findViewById(R.id.progressbar)
+        mProgressBar = findViewById(R.id.progressbar_color)
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
