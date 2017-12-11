@@ -4,10 +4,36 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
-              android:gravity="bottom">
-    <ImageView
-        android:id="@+id/frame_photo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+              android:gravity="center">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:backgroundTint="@color/transparent"
+                  android:gravity="center"
+                  android:orientation="vertical"
+                  android:paddingLeft="5dp"
+                  android:paddingRight="5dp"
+                  android:paddingBottom="3dp"
+                  android:paddingTop="2dp"
+                  android:visibility="invisible">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/editing"
+            android:textSize="12dp"
+            android:layout_gravity="left"/>
+        <ProgressBar
+            android:id="@+id/progressbar_frame"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="220dp"
+            android:layout_height="17dp"
+            android:indeterminate="true"
+            android:indeterminateBehavior="cycle"
+            android:paddingBottom="5dp"
+            android:paddingTop="2dp"
+            android:progress="40"
+            android:max="100"
+            />
+    </LinearLayout>
 </LinearLayout>

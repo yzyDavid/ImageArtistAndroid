@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Environment
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
+import android.view.View
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -43,6 +44,7 @@ class ColorModel(private val activity: Color) {
         callHello.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 response!!.body()!!.string()
+                activity.mProgressBar.visibility = View.INVISIBLE
                 // TODO: activity stop the progress bar and show the text
             }
 
@@ -51,6 +53,7 @@ class ColorModel(private val activity: Color) {
             }
         })
         // TODO: activity create a progress bar to wait network response
+        activity.mProgressBar.visibility = View.VISIBLE
     }
 
     fun getThemeColor(image: Bitmap, count: Int) {
@@ -66,8 +69,10 @@ class ColorModel(private val activity: Color) {
                 val themeColorImage = response!!.body()!!
                 val bytes = themeColorImage.bytes()
                 WorkspaceManager.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                activity.mProgressBar.visibility = View.VISIBLE
                 activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
                 // TODO: activity stop the progress bar and show the image
+
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
@@ -75,6 +80,7 @@ class ColorModel(private val activity: Color) {
             }
         })
         // TODO: activity create a progress bar to wait network response
+        activity.mProgressBar.visibility = View.INVISIBLE
     }
 
     private fun toImageFile(image: Bitmap): File {
