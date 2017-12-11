@@ -3,4 +3,7 @@
     <item
         android:id="@+id/menu_change_contrast"
         android:title="@string/contrast" />
+    <item
+        android:id="@+id/menu_change_light"
+        android:title="@string/light" />
 </menu>

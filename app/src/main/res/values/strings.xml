@@ -24,4 +24,6 @@
     <string name="transfer">转换</string>
     <string name="image_to_edit">Image to edit</string>
     <string name="contrast">调整对比度</string>
+    <string name="slide_hint">左右滑动屏幕以进行调节</string>
+    <string name="light">调整亮度</string>
 </resources>
