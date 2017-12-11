@@ -59,8 +59,6 @@ class MainActivity : AppCompatActivity() {
 
         this.setTitle(R.string.app_name)
         mImage = findViewById(R.id.imageView)
-        mButtonTest = findViewById(R.id.testbutton)
-
     }
 
     override fun onResume() {
