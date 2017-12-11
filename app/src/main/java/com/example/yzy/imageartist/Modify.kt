@@ -10,7 +10,7 @@ class Modify : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_modify)
         this.setTitle(R.string.modify)
-        mPhoto=findViewById(R.id.modify_photo)
+        mPhoto = findViewById(R.id.modify_photo)
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }

@@ -13,7 +13,7 @@
     <string name="SelectRule">点击任意位置选择图片</string>
     <string name="Editor">编辑图片</string>
     <string name="choose_color">主题色化</string>
-    <string name="modify">调整细节</string>
+    <string name="modify">图像调节</string>
     <string name="choose_tool">工具</string>
     <string name="export">导出</string>
     <string name="main_image">main_image</string>

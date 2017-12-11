@@ -33,10 +33,10 @@ class Frame : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frame)
         this.setTitle(R.string.frame)
-        mPhoto=findViewById(R.id.frame_photo)
-         WorkspaceManager.bitmap?.let {
-             mPhoto.setImageBitmap(it)
-         }
+        mPhoto = findViewById(R.id.frame_photo)
+        WorkspaceManager.bitmap?.let {
+            mPhoto.setImageBitmap(it)
+        }
     }
 }
 

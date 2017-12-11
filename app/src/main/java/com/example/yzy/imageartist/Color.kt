@@ -11,7 +11,7 @@ class Color : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_color)
         this.setTitle(R.string.choose_color)
-        mPhoto=findViewById(R.id.color_photo)
+        mPhoto = findViewById(R.id.color_photo)
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
