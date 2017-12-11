@@ -25,11 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Stylize"/>
-        <activity android:name=".Joint"/>
-        <activity android:name=".Sticker"/>
-        <activity android:name=".Frame"/>
-        <activity android:name=".Settings"/>
+        <activity android:name=".StylizeActivity"/>
+        <activity android:name=".JointActivity"/>
+        <activity android:name=".StickerActivity"/>
+        <activity android:name=".FrameActivity"/>
+        <activity android:name=".SettingsActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -41,10 +41,10 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".Editor"/>
-        <activity android:name=".Import"/>
-        <activity android:name=".Color"/>
-        <activity android:name=".Modify"/>
+        <activity android:name=".EditorActivity"/>
+        <activity android:name=".ImportActivity"/>
+        <activity android:name=".ColorActivity"/>
+        <activity android:name=".ModifyActivity"/>
     </application>
 
 </manifest>

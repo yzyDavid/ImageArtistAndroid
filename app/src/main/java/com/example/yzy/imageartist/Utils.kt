@@ -24,12 +24,13 @@ object Utils {
         CvUtils.matToBitmap(mat, result)
         return result
     }
+
+    public fun Bitmap.toMat(): Mat {
+        return fromBitmapToMat(this)
+    }
+
+    public fun Mat.toBitmap(): Bitmap {
+        return fromMatToBitmap(this)
+    }
 }
 
-public fun Bitmap.toMat(): Mat {
-    return fromBitmapToMat(this)
-}
-
-public fun Mat.toBitmap(): Bitmap {
-    return fromMatToBitmap(this)
-}

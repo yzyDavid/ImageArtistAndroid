@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 
-class Color : AppCompatActivity() {
+class ColorActivity : AppCompatActivity() {
     public lateinit var mPhoto: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {

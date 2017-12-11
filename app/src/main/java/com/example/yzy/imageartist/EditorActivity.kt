@@ -14,11 +14,9 @@ import android.widget.NumberPicker.Formatter
 import java.io.File
 import java.io.FileOutputStream
 import com.example.yzy.imageartist.WorkspaceManager.bitmap
-import java.io.FileNotFoundException
-import java.io.IOException
 
 
-class Editor : AppCompatActivity(), Formatter {
+class EditorActivity : AppCompatActivity(), Formatter {
 
     private lateinit var mStylizeText: TextView
     private lateinit var mExportText: TextView
@@ -42,7 +40,7 @@ class Editor : AppCompatActivity(), Formatter {
         mToolText = findViewById(R.id.tool_text)
         mExportText = findViewById(R.id.export_text)
         mStylizeText.setOnClickListener {
-            val intent = Intent(this, Stylize::class.java)
+            val intent = Intent(this, StylizeActivity::class.java)
             startActivity(intent)
         }
         mToolText.setOnClickListener { show(it) }
@@ -116,17 +114,17 @@ class Editor : AppCompatActivity(), Formatter {
         dialogWindow.attributes = lp
         mDialog.show()
         mColorText.setOnClickListener {
-            val intent = Intent(this, Color::class.java)
+            val intent = Intent(this, ColorActivity::class.java)
             startActivity(intent)
             mDialog.dismiss()
         }
         mFrameText.setOnClickListener {
-            val intent = Intent(this, Frame::class.java)
+            val intent = Intent(this, FrameActivity::class.java)
             startActivity(intent)
             mDialog.dismiss()
         }
         mModifyText.setOnClickListener {
-            val intent = Intent(this, Modify::class.java)
+            val intent = Intent(this, ModifyActivity::class.java)
             startActivity(intent)
             mDialog.dismiss()
         }

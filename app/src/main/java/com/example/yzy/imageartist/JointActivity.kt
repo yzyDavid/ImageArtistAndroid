@@ -3,11 +3,11 @@ package com.example.yzy.imageartist
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
-class Settings : AppCompatActivity() {
+class JointActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setting)
-        this.setTitle(R.string.settings)
+        setContentView(R.layout.activity_joint)
+        this.setTitle(R.string.joint)
     }
 }

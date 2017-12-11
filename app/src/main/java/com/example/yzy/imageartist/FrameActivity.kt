@@ -26,7 +26,8 @@ import java.util.Calendar
 import java.util.Locale
 import java.text.SimpleDateFormat
 
-class Frame : AppCompatActivity() {
+@Deprecated("function abandoned")
+class FrameActivity : AppCompatActivity() {
     public lateinit var mPhoto: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {

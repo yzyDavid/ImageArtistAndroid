@@ -10,8 +10,10 @@ import android.view.MotionEvent
 import android.widget.ImageView
 import org.jetbrains.anko.toast
 import org.opencv.core.Mat
+import com.example.yzy.imageartist.Utils.toBitmap
+import com.example.yzy.imageartist.Utils.toMat
 
-class Modify : AppCompatActivity() {
+class ModifyActivity : AppCompatActivity() {
     private val NOTHING = 0
     private val CONTRAST = 1
     private val LIGHT = 2

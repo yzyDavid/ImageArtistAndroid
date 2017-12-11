@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Base64
-import android.widget.ImageView
 import android.widget.Toast
 import okhttp3.*
 import org.opencv.android.Utils
@@ -20,7 +19,7 @@ import retrofit2.http.*
 import java.io.File
 import java.io.FileOutputStream
 
-class StylizeModel(private val activity: Stylize) {
+class StylizeModel(private val activity: StylizeActivity) {
     interface StylizeService {
         @POST("upload_image")
         fun uploadImage(@Header("authorization") credential: String, @Body body: RequestBody): Call<ResponseBody>
