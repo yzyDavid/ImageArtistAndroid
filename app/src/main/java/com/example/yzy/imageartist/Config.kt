@@ -8,4 +8,10 @@ object Config {
 
     val timeout: Long = 20
     val timeoutUnit = TimeUnit.SECONDS
+
+    val contrastAlphaIncrease = 1.1
+    val contrastAlphaDecrease = 0.9
+
+    val lightBetaIncrease = 10.toDouble()
+    val lightBetaDecrease = (-10).toDouble()
 }
