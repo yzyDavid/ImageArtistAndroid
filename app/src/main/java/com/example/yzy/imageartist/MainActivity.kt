@@ -4,35 +4,20 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.view.*
 import android.widget.Button
-import android.widget.TextView
-import android.provider.MediaStore
 
 import android.widget.ImageView
 
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.util.Log
 
-import org.jetbrains.anko.toast
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
 import org.opencv.android.OpenCVLoader
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
-import java.io.File
-import java.io.FileOutputStream
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 @RuntimePermissions
 class MainActivity : AppCompatActivity() {
@@ -120,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             CAMERA -> WorkspaceManager.bitmap = cameraModel.getBitmap(resultCode)
         }
 
-        val intent = Intent(this, Editor::class.java)
+        val intent = Intent(this, EditorActivity::class.java)
         startActivity(intent)
 
     }

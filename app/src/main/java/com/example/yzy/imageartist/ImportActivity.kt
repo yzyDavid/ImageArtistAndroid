@@ -3,11 +3,11 @@ package com.example.yzy.imageartist
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
-class Sticker : AppCompatActivity() {
+@Deprecated("implemented without activity")
+class ImportActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sticker)
-        this.setTitle(R.string.sticker)
+        setContentView(R.layout.activity_import)
     }
 }

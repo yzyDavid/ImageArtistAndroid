@@ -3,7 +3,6 @@ package com.example.yzy.imageartist
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
-import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import android.view.View
 import okhttp3.MediaType
@@ -14,7 +13,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.io.File
 import java.io.FileOutputStream
@@ -24,7 +22,7 @@ import org.opencv.android.Utils
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 
-class ColorModel(private val activity: Color) {
+class ColorModel(private val activity: ColorActivity) {
     interface ColorService {
         @GET("hello")
         fun getTest(@Header("authorization") credential: String): Call<ResponseBody>

@@ -26,17 +26,18 @@ import java.util.Calendar
 import java.util.Locale
 import java.text.SimpleDateFormat
 
-class Frame : AppCompatActivity() {
+@Deprecated("function abandoned")
+class FrameActivity : AppCompatActivity() {
     public lateinit var mPhoto: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frame)
         this.setTitle(R.string.frame)
-      //  mPhoto=findViewById(R.id.frame_photo)
-        // WorkspaceManager.bitmap?.let {
-          //   mPhoto.setImageBitmap(it)
-         //}
+        mPhoto = findViewById(R.id.frame_photo)
+        WorkspaceManager.bitmap?.let {
+            mPhoto.setImageBitmap(it)
+        }
     }
 }
 
