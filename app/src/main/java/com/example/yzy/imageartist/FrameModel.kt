@@ -1,6 +1,7 @@
 package com.example.yzy.imageartist
 
 import android.graphics.Bitmap
+import android.util.Log
 import org.opencv.android.Utils
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -14,6 +15,6 @@ class FrameModel(private val activiy: FrameActivity) {
         val matFrame = Mat(frame.height, frame.width, CvType.CV_8UC4)
         Utils.bitmapToMat(frame, matFrame)
         Imgproc.resize(matFrame, matFrame, Size(image.width.toDouble(), image.height.toDouble()))
-
+        //Log.i("Frame", matImage[0, 0].toString())
     }
 }
