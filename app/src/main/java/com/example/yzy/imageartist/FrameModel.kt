@@ -7,7 +7,7 @@ import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 
-class FrameModel(private val activiy: Frame) {
+class FrameModel(private val activiy: FrameActivity) {
     fun appendFrame(image: Bitmap, frame: Bitmap) {
         val matImage = Mat(image.height, image.width, CvType.CV_8UC4)
         Utils.bitmapToMat(image, matImage)
