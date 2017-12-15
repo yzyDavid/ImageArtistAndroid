@@ -20,9 +20,10 @@
         app:columnCount="6"
         app:orientation="horizontal"
         app:rowCount="1"
-        tools:context="com.example.android_grillayout.MainActivity">
+        tools:context="com.example.android_gridlayout.MainActivity">
 
         <TextView
+            android:id="@+id/color_1"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:gravity="center"
@@ -31,6 +32,7 @@
             app:layout_gravity="fill" />
 
         <TextView
+            android:id="@+id/color_2"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:gravity="center"
@@ -39,6 +41,7 @@
             app:layout_gravity="fill" />
 
         <TextView
+            android:id="@+id/color_3"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:gravity="center"
@@ -47,6 +50,7 @@
             app:layout_gravity="fill" />
 
         <TextView
+            android:id="@+id/color_4"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:gravity="center"
@@ -55,6 +59,7 @@
             app:layout_gravity="fill" />
 
         <TextView
+            android:id="@+id/color_5"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:gravity="center"
