@@ -21,8 +21,10 @@ import permissions.dispatcher.RuntimePermissions
 
 @RuntimePermissions
 class MainActivity : AppCompatActivity() {
-    private val CAMERA: Int = 1
-    private val PICTURE: Int = 0
+    companion object {
+        const val CAMERA: Int = 1
+        const val PICTURE: Int = 0
+    }
 
     private lateinit var inflate: View
     private lateinit var mButtonChoosePhoto: Button
