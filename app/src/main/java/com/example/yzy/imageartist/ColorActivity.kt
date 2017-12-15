@@ -30,7 +30,9 @@ class ColorActivity : AppCompatActivity() {
                 .forEach { pair ->
                     pair.second.setOnClickListener {
                         WorkspaceManager.bitmap?.let {
+                            Log.i("Color", "start theme coloring")
                             model.getThemeColor(it, pair.first)
+                            Log.i("Color", "finish theme coloring")
                         }
                     }
                 }

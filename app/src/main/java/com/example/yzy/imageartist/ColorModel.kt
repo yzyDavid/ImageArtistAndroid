@@ -93,7 +93,7 @@ class ColorModel(private val activity: ColorActivity) {
             val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
             Utils.matToBitmap(matImage, resizedImage)
             os.close()
-            imageFile.delete()
+            // imageFile.delete()
             imageFile = File.createTempFile(filename, ".jpg", storageDir)
             os = FileOutputStream(imageFile)
             resizedImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
