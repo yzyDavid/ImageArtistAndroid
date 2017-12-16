@@ -13,10 +13,14 @@ import org.opencv.core.Mat
 import com.example.yzy.imageartist.Utils.toBitmap
 import com.example.yzy.imageartist.Utils.toMat
 
+
 class ModifyActivity : AppCompatActivity() {
-    private val NOTHING = 0
-    private val CONTRAST = 1
-    private val LIGHT = 2
+    companion object {
+        const val NOTHING = 0
+        const val CONTRAST = 1
+        const val LIGHT = 2
+    }
+
     private var mode = NOTHING
 
     lateinit var mPhoto: ImageView
@@ -52,12 +56,12 @@ class ModifyActivity : AppCompatActivity() {
                 if (distanceX < 0) {
                     when (mode) {
                         CONTRAST -> contrastIncrease()
-                        LIGHT ->lightIncrease()
+                        LIGHT -> lightIncrease()
                     }
                 } else {
                     when (mode) {
                         CONTRAST -> contrastDecrease()
-                        LIGHT ->lightDecrease()
+                        LIGHT -> lightDecrease()
                     }
                 }
                 return true

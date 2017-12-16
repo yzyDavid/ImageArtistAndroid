@@ -26,4 +26,10 @@
     <string name="contrast">调整对比度</string>
     <string name="slide_hint">左右滑动屏幕以进行调节</string>
     <string name="light">调整亮度</string>
+    <string name="image_in_theme_colorize_activity">Image in theme colorize activity</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
 </resources>
