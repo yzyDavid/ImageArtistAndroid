@@ -85,8 +85,8 @@ class ColorModel(private val activity: ColorActivity) {
         image.compress(Bitmap.CompressFormat.JPEG, 100, os)
         os.flush()
         var size = imageFile.length()
-        if (size > 1024 * 1024) {
-            val ratio = (size / 1000 / 1000).toInt()
+        if (size > 640 * 640) {
+            val ratio = (size / 640 / 640).toInt()
             val matImage = Mat(height, width, CvType.CV_8UC1)
             Utils.bitmapToMat(image, matImage)
             Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
