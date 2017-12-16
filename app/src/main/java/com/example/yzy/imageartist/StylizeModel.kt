@@ -126,7 +126,7 @@ class StylizeModel(private val activity: StylizeActivity) {
         os.flush()
         val size = imageFile.length()
         if (size > 1024 * 1024) {
-            val ratio = (size / 1000 / 1000).toInt()
+            val ratio = if (height > width) height.toDouble() / 640 else width.toDouble() / 640
             val matImage = Mat(height, width, CvType.CV_8UC1)
             Utils.bitmapToMat(image, matImage)
             Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
