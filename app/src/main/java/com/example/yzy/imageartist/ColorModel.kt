@@ -3,7 +3,9 @@ package com.example.yzy.imageartist
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
+import android.system.Os
 import android.util.Base64
+import android.widget.Toast
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -35,6 +37,8 @@ class ColorModel(private val activity: ColorActivity) {
             .build()
     private val service = retrofit.create(ColorService::class.java)
     private val credential = "Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP)
+    private var filePath: String? = null
+    private lateinit var callThemeColor: Call<ResponseBody>
 
     fun getHello() {
         val callHello = service.getTest(credential)
@@ -45,7 +49,7 @@ class ColorModel(private val activity: ColorActivity) {
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                RuntimeException(t!!.message)
+                throw RuntimeException(t!!.message)
             }
         })
         // TODO: activity create a progress bar to wait network response
@@ -53,23 +57,29 @@ class ColorModel(private val activity: ColorActivity) {
 
     fun getThemeColor(image: Bitmap, count: Int) {
         val imageFile = toImageFile(image)
-        val size = imageFile.length()
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
                 .addFormDataPart("count", count.toString())
                 .build()
-        val callThemeColor = service.getThemeColor(credential, requestBody)
+        filePath = imageFile.path
+        callThemeColor = service.getThemeColor(credential, requestBody)
         callThemeColor.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                 val themeColorImage = response!!.body()!!
                 val bytes = themeColorImage.bytes()
                 WorkspaceManager.bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                 activity.mPhoto.setImageBitmap(WorkspaceManager.bitmap)
+                val file = File(filePath)
+                file.delete()
+                filePath = null
                 // TODO: activity stop the progress bar and show the image
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                RuntimeException(t!!.message)
+                val file = File(filePath)
+                file.delete()
+                filePath = null
+                throw RuntimeException(t!!.message)
             }
         })
         // TODO: activity create a progress bar to wait network response
@@ -84,21 +94,20 @@ class ColorModel(private val activity: ColorActivity) {
         var os = FileOutputStream(imageFile)
         image.compress(Bitmap.CompressFormat.JPEG, 100, os)
         os.flush()
-        var size = imageFile.length()
+        val size = imageFile.length()
         if (size > 1024 * 1024) {
-            val ratio = (size / 1000 / 1000).toInt()
-            val matImage = Mat(height, width, CvType.CV_8UC1)
+            val ratio = if (height > width) height.toDouble() / 640 else width.toDouble() / 640
+            val matImage = Mat(height, width, CvType.CV_8UC3)
             Utils.bitmapToMat(image, matImage)
             Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
             val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
             Utils.matToBitmap(matImage, resizedImage)
             os.close()
-            // imageFile.delete()
+            imageFile.delete()
             imageFile = File.createTempFile(filename, ".jpg", storageDir)
             os = FileOutputStream(imageFile)
             resizedImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
             os.flush()
-            size = imageFile.length()
         }
         os.close()
         return imageFile
