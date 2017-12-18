@@ -8,9 +8,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 
-const val PICTURE = 0
 
 class StylizeActivity : AppCompatActivity() {
+    companion object {
+        const val PICTURE = 0
+    }
 
     lateinit var mPhoto: ImageView
     private val gallery = GalleryModel(this, PICTURE)

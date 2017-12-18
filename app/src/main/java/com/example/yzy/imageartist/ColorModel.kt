@@ -90,25 +90,16 @@ class ColorModel(private val activity: ColorActivity) {
         val width = image.width
         val filename = "ImageArtist_" + System.currentTimeMillis()
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        var imageFile = File.createTempFile(filename, ".jpg", storageDir)
-        var os = FileOutputStream(imageFile)
-        image.compress(Bitmap.CompressFormat.JPEG, 100, os)
+        val imageFile = File.createTempFile(filename, ".jpg", storageDir)
+        val os = FileOutputStream(imageFile)
+        val ratio = if (height > width) height.toDouble() / 640 else width.toDouble() / 640
+        val matImage = Mat(height, width, CvType.CV_8UC3)
+        Utils.bitmapToMat(image, matImage)
+        Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
+        val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
+        Utils.matToBitmap(matImage, resizedImage)
+        resizedImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
         os.flush()
-        val size = imageFile.length()
-        if (size > 1024 * 1024) {
-            val ratio = if (height > width) height.toDouble() / 640 else width.toDouble() / 640
-            val matImage = Mat(height, width, CvType.CV_8UC3)
-            Utils.bitmapToMat(image, matImage)
-            Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
-            val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
-            Utils.matToBitmap(matImage, resizedImage)
-            os.close()
-            imageFile.delete()
-            imageFile = File.createTempFile(filename, ".jpg", storageDir)
-            os = FileOutputStream(imageFile)
-            resizedImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
-            os.flush()
-        }
         os.close()
         return imageFile
     }

@@ -4,14 +4,17 @@ import android.annotation.SuppressLint
 import java.util.concurrent.TimeUnit
 
 object Config {
-    val baseUrl = "https://cluster.yuzhenyun.me/api/"
+    const val baseUrl = "https://cluster.yuzhenyun.me/api/"
 
-    val timeout: Long = 20
+    const val timeout: Long = 20
     val timeoutUnit = TimeUnit.SECONDS
 
-    val contrastAlphaIncrease = 1.1
-    val contrastAlphaDecrease = 0.9
+    const val contrastAlphaIncrease = 1.1
+    const val contrastAlphaDecrease = 0.9
 
-    val lightBetaIncrease = 10.toDouble()
-    val lightBetaDecrease = (-10).toDouble()
+    const val lightBetaIncrease = 10.toDouble()
+    const val lightBetaDecrease = (-10).toDouble()
+
+    const val colorPixelLimit = 640
+    const val colorPixelLimitStrict = 480
 }
