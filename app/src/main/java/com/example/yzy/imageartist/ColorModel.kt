@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory
 import android.os.Environment
 import android.system.Os
 import android.util.Base64
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -73,6 +75,9 @@ class ColorModel(private val activity: ColorActivity) {
                 val file = File(filePath)
                 file.delete()
                 filePath = null
+                activity.isWaiting = false
+                activity.mpb.visibility = View.INVISIBLE
+                Log.i("Color", "finish theme coloring")
                 // TODO: activity stop the progress bar and show the image
             }
 
