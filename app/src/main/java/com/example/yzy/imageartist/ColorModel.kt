@@ -40,6 +40,7 @@ class ColorModel(private val activity: ColorActivity) {
     private var filePath: String? = null
     private lateinit var callThemeColor: Call<ResponseBody>
 
+    @Deprecated("for test only")
     fun getHello() {
         val callHello = service.getTest(credential)
         callHello.enqueue(object : Callback<ResponseBody> {
@@ -56,7 +57,7 @@ class ColorModel(private val activity: ColorActivity) {
     }
 
     fun getThemeColor(image: Bitmap, count: Int) {
-        val imageFile = toImageFile(image)
+        val imageFile = toImageFile(image, count)
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
                 .addFormDataPart("count", count.toString())
@@ -85,14 +86,18 @@ class ColorModel(private val activity: ColorActivity) {
         // TODO: activity create a progress bar to wait network response
     }
 
-    private fun toImageFile(image: Bitmap): File {
+    private fun toImageFile(image: Bitmap, count: Int): File {
         val height = image.height
         val width = image.width
         val filename = "ImageArtist_" + System.currentTimeMillis()
         val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         val imageFile = File.createTempFile(filename, ".jpg", storageDir)
         val os = FileOutputStream(imageFile)
-        val ratio = if (height > width) height.toDouble() / 640 else width.toDouble() / 640
+        val ratio = if (count <= 5) {
+            if (height > width) height.toDouble() / Config.colorPixelLimit else width.toDouble() / Config.colorPixelLimit
+        } else {
+            if (height > width) height.toDouble() / Config.colorPixelLimitStrict else width.toDouble() / Config.colorPixelLimitStrict
+        }
         val matImage = Mat(height, width, CvType.CV_8UC3)
         Utils.bitmapToMat(image, matImage)
         Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
