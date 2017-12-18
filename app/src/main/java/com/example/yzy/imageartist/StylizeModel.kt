@@ -53,7 +53,7 @@ class StylizeModel(private val activity: StylizeActivity) {
         val resizedImage = BitmapFactory.decodeFile(imageFile.path)
         val width = resizedImage.width
         val height = resizedImage.height
-
+        imagePath = imageFile.path
         imageText = null
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
@@ -84,7 +84,7 @@ class StylizeModel(private val activity: StylizeActivity) {
         val resizedImage = BitmapFactory.decodeFile(imageFile.path)
         val width = resizedImage.width
         val height = resizedImage.height
-
+        stylePath = imageFile.path
         styleText = null
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
