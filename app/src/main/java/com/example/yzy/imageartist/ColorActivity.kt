@@ -9,7 +9,7 @@ import android.widget.TextView
 
 class ColorActivity : AppCompatActivity() {
     lateinit var mPhoto: ImageView
-    lateinit var model: ColorModel
+    private lateinit var model: ColorModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
