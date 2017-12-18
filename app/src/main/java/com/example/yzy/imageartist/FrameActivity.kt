@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat
 @Deprecated("function abandoned")
 class FrameActivity : AppCompatActivity() {
     public lateinit var mPhoto: ImageView
+    private val frameModel = FrameModel(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

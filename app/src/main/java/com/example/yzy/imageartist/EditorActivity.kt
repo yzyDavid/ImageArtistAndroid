@@ -138,6 +138,7 @@ class EditorActivity : AppCompatActivity(), Formatter {
         return tmpStr
     }
 
+
     override fun onResume() {
         super.onResume()
         WorkspaceManager.bitmap?.let {
@@ -145,3 +146,4 @@ class EditorActivity : AppCompatActivity(), Formatter {
         }
     }
 }
+

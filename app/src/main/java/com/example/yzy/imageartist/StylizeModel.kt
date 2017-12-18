@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Base64
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.view.*
 import okhttp3.*
 import org.opencv.android.Utils
 import org.opencv.core.CvType
@@ -44,6 +45,8 @@ class StylizeModel(private val activity: StylizeActivity) {
     private val credential = "Basic " + Base64.encodeToString("minami:kotori".toByteArray(), Base64.NO_WRAP)
     private var imageText: String? = null
     private var styleText: String? = null
+    private var imagePath: String? = null
+    private var stylePath: String? = null
 
     fun uploadImage(image: Bitmap) {
         val imageFile = toImageFile(image)
@@ -60,11 +63,17 @@ class StylizeModel(private val activity: StylizeActivity) {
         val callUploadImage = service.uploadImage(credential, requestBody)
         callUploadImage.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                val file = File(imagePath)
+                file.delete()
+                imagePath = null
                 imageText = response!!.body()!!.string()
                 getTransfer()
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                val file = File(imagePath)
+                file.delete()
+                imagePath = null
                 Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
@@ -85,11 +94,17 @@ class StylizeModel(private val activity: StylizeActivity) {
         val callUploadStyle = service.uploadStyle(credential, requestBody)
         callUploadStyle.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                val file = File(stylePath)
+                file.delete()
+                stylePath = null
                 styleText = response!!.body()!!.string()
                 getTransfer()
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                val file = File(stylePath)
+                file.delete()
+                stylePath = null
                 Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
@@ -126,8 +141,8 @@ class StylizeModel(private val activity: StylizeActivity) {
         os.flush()
         val size = imageFile.length()
         if (size > 1024 * 1024) {
-            val ratio = (size / 1000 / 1000).toInt()
-            val matImage = Mat(height, width, CvType.CV_8UC1)
+            val ratio = if (height > width) height.toDouble() / 640 else width.toDouble() / 640
+            val matImage = Mat(height, width, CvType.CV_8UC3)
             Utils.bitmapToMat(image, matImage)
             Imgproc.resize(matImage, matImage, Size(width.toDouble() / ratio, height.toDouble() / ratio))
             val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)

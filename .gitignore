@@ -1,5 +1,6 @@
 # mac DS_Store
 .DS_Store
+*.icloud
 
 # Built application files
 *.apk
