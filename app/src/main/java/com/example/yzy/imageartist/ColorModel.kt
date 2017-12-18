@@ -56,7 +56,6 @@ class ColorModel(private val activity: ColorActivity) {
     }
 
     fun getThemeColor(image: Bitmap, count: Int) {
-        if (filePath != null) callThemeColor.cancel()
         val imageFile = toImageFile(image)
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("image", imageFile.name, RequestBody.create(MediaType.parse("image/jpeg"), imageFile))
@@ -77,6 +76,9 @@ class ColorModel(private val activity: ColorActivity) {
             }
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                val file = File(filePath)
+                file.delete()
+                filePath = null
                 throw RuntimeException(t!!.message)
             }
         })
@@ -101,6 +103,7 @@ class ColorModel(private val activity: ColorActivity) {
             val resizedImage = Bitmap.createBitmap(matImage.cols(), matImage.rows(), Bitmap.Config.ARGB_8888)
             Utils.matToBitmap(matImage, resizedImage)
             os.close()
+            imageFile.delete()
             imageFile = File.createTempFile(filename, ".jpg", storageDir)
             os = FileOutputStream(imageFile)
             resizedImage.compress(Bitmap.CompressFormat.JPEG, 100, os)
