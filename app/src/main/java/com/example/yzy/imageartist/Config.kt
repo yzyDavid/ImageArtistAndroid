@@ -16,4 +16,5 @@ object Config {
     const val lightBetaDecrease = (-10).toDouble()
 
     const val colorPixelLimit = 640
+    const val colorPixelLimitStrict = 480
 }

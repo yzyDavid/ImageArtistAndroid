@@ -21,11 +21,11 @@ class ColorActivity : AppCompatActivity() {
         }
         model = ColorModel(this)
         listOf(
-                Pair(1, R.id.color_1),
-                Pair(2, R.id.color_2),
                 Pair(3, R.id.color_3),
                 Pair(4, R.id.color_4),
-                Pair(5, R.id.color_5))
+                Pair(5, R.id.color_5),
+                Pair(6, R.id.color_6),
+                Pair(7, R.id.color_7))
                 .map { Pair(it.first, findViewById<TextView>(it.second)) }
                 .forEach { pair ->
                     pair.second.setOnClickListener {

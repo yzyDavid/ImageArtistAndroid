@@ -23,24 +23,6 @@
         tools:context="com.example.android_gridlayout.MainActivity">
 
         <TextView
-            android:id="@+id/color_1"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="@string/_1"
-            app:layout_columnWeight="1"
-            app:layout_gravity="fill" />
-
-        <TextView
-            android:id="@+id/color_2"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="@string/_2"
-            app:layout_columnWeight="1"
-            app:layout_gravity="fill" />
-
-        <TextView
             android:id="@+id/color_3"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
@@ -64,6 +46,24 @@
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="@string/_5"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill" />
+
+        <TextView
+            android:id="@+id/color_6"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="@string/_6"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill" />
+
+        <TextView
+            android:id="@+id/color_7"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="@string/_7"
             app:layout_columnWeight="1"
             app:layout_gravity="fill" />
     </android.support.v7.widget.GridLayout>
