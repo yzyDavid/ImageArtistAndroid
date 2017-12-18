@@ -80,7 +80,7 @@ class ColorModel(private val activity: ColorActivity) {
                 val file = File(filePath)
                 file.delete()
                 filePath = null
-                throw RuntimeException(t!!.message)
+                Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
             }
         })
         // TODO: activity create a progress bar to wait network response
