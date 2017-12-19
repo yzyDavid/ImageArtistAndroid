@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/image_in_theme_colorize_activity" />
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
     <android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/choose_color"
@@ -83,4 +85,5 @@
             app:mpb_showProgressBackground="false"
             app:mpb_useIntrinsicPadding="false" />
     </FrameLayout>
+</RelativeLayout>
 </LinearLayout>
