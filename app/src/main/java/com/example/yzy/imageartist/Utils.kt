@@ -1,5 +1,6 @@
 package com.example.yzy.imageartist
 
+import android.content.Context
 import android.graphics.Bitmap
 import com.example.yzy.imageartist.Utils.fromBitmapToMat
 import com.example.yzy.imageartist.Utils.fromMatToBitmap
@@ -35,6 +36,18 @@ object Utils {
     @JvmStatic
     public fun Mat.toBitmap(): Bitmap {
         return fromMatToBitmap(this)
+    }
+
+    @JvmStatic
+    public fun dp2px(context: Context, dpValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
+    }
+
+    @JvmStatic
+    public fun px2dp(context: Context, pxValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (pxValue / scale + 0.5f).toInt()
     }
 }
 
