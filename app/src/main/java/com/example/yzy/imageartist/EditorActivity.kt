@@ -58,7 +58,7 @@ class EditorActivity : AppCompatActivity(), Formatter {
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
         lp.alpha = 9f
         inflate.measure(0, 0)
-        lp.height = Utils.dp2px(this, 20.toFloat())
+        lp.height = Utils.dp2px(this, 150.toFloat())
         dialogWindow.attributes = lp
         mDialog.show()
         mShareText.setOnClickListener {
