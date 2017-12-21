@@ -65,10 +65,12 @@ class GraffitiActivity : AppCompatActivity() {
         WorkspaceManager.bitmap?.let {
             mPhoto.setImageBitmap(it)
         }
+        /*
         for (i in 0 until WorkspaceManager.bitmap!!.width)
             for (j in 0 until WorkspaceManager.bitmap!!.height) {
                 image.setPixel(i, j, WorkspaceManager.bitmap!!.getPixel(i, j))
             }
+            */
         /*
         mLayout.setOnTouchListener { view, motion ->
             view.performClick()
@@ -129,14 +131,12 @@ class GraffitiActivity : AppCompatActivity() {
         if (mode == NOTHING) return
         val x = (motion.x - mLayoutPos[0] - (mLayoutWidth - imgWidth) / 2) * ratio
         val y = (motion.y - mLayoutPos[1] - (mLayoutHeight - imgHeight) / 2) * ratio
-        var i: Int
-        var j: Int
         //val image = Bitmap.createBitmap(WorkspaceManager.bitmap!!.width, WorkspaceManager.bitmap!!.height, Bitmap.Config.ARGB_8888)
         for (i in -circle..circle) {
             (-circle..circle)
                     .filter { x + i in 0.0..picWidth && y + it in 0.0..picHeight && i * i + it * it <= circle * circle }
                     .forEach {
-                        image.setPixel((x + i).toInt(), (y + it).toInt(), when (mode) {
+                        WorkspaceManager.bitmap!!.setPixel((x + i).toInt(), (y + it).toInt(), when (mode) {
                             RED -> Color.RED
                             BLUE -> Color.BLUE
                             GREEN -> Color.GREEN
@@ -146,6 +146,6 @@ class GraffitiActivity : AppCompatActivity() {
                         })
                     }
         }
-        mPhoto.setImageBitmap(image)
+        mPhoto.setImageBitmap(WorkspaceManager.bitmap)
     }
 }

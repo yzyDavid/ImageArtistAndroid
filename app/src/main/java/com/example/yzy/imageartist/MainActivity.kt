@@ -4,8 +4,10 @@ import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.view.*
 import android.widget.Button
 
@@ -18,6 +20,10 @@ import org.opencv.android.LoaderCallbackInterface
 import org.opencv.android.OpenCVLoader
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
+import java.io.File
+import java.io.RandomAccessFile
+import java.lang.System.gc
+import java.nio.channels.FileChannel
 
 @RuntimePermissions
 class MainActivity : AppCompatActivity() {
@@ -106,9 +112,29 @@ class MainActivity : AppCompatActivity() {
             PICTURE -> WorkspaceManager.bitmap = galleryModel.getBitmap(resultCode, data!!)
             CAMERA -> WorkspaceManager.bitmap = cameraModel.getBitmap(resultCode)
         }
+        WorkspaceManager.bitmap = toMutable(WorkspaceManager.bitmap!!)
 
         val intent = Intent(this, EditorActivity::class.java)
         startActivity(intent)
 
+    }
+
+    private fun toMutable(image: Bitmap): Bitmap {
+        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        val file = File.createTempFile("bitmap", "", storageDir)
+        val random = RandomAccessFile(file, "rw")
+        val map = random.channel.map(FileChannel.MapMode.READ_WRITE, 0, (image.rowBytes * image.height).toLong())
+        val width = image.width
+        val height = image.height
+        val config = image.config
+        image.copyPixelsToBuffer(map)
+        image.recycle()
+        gc()
+        val mutableImage = Bitmap.createBitmap(width, height, config)
+        map.position(0)
+        mutableImage.copyPixelsFromBuffer(map)
+        random.close()
+        file.delete()
+        return mutableImage
     }
 }
