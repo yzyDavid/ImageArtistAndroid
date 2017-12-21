@@ -45,10 +45,7 @@
         <activity android:name=".ImportActivity" />
         <activity android:name=".ColorActivity" />
         <activity android:name=".ModifyActivity" />
-        <activity
-            android:name=".GraffitiActivity"
-            android:label="@string/title_activity_graffiti"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".GraffitiActivity" />
     </application>
 
 </manifest>

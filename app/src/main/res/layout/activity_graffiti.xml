@@ -6,11 +6,18 @@
     android:gravity="bottom"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/graffiti_photo"
+    <RelativeLayout
+        android:id="@+id/graffiti_photo_area"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/image_in_graffiti_activity" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/graffiti_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_in_graffiti_activity" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
