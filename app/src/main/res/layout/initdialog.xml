@@ -4,11 +4,12 @@
               android:orientation="vertical"
               android:background="@drawable/dialogshape"
               android:layout_height="wrap_content"
-              android:layout_gravity="center"
               android:paddingBottom="10dp"
               android:paddingLeft="10dp"
               android:paddingRight="10dp"
-              android:paddingTop="5dp"
+              android:paddingTop="10dp"
+              android:layout_gravity="center"
+
               android:backgroundTint="@color/white_transparent">
 
     <Button

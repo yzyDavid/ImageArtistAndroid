@@ -86,6 +86,7 @@ class ColorModel(private val activity: ColorActivity) {
                 file.delete()
                 filePath = null
                 Toast.makeText(activity, t!!.message, Toast.LENGTH_LONG).show()
+                activity.mpb.visibility = View.INVISIBLE
             }
         })
         // TODO: activity create a progress bar to wait network response
