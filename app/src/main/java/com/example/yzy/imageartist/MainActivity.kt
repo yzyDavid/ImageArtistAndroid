@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 
 import android.util.Log
+import com.example.yzy.imageartist.Utils.dp2px
 
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.LoaderCallbackInterface
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         dialogWindow.setGravity(Gravity.BOTTOM)
         val lp: WindowManager.LayoutParams = dialogWindow.attributes
         inflate.measure(0, 0)
-        lp.height = inflate.measuredHeight
+        lp.height = dp2px(this, 260.toFloat())
         lp.alpha = 9f
         dialogWindow.attributes = lp
         mDialog.show()
