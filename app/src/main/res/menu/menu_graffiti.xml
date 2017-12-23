@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_size_up"
+        android:title="@string/plump" />
+    <item
+        android:id="@+id/menu_size_down"
+        android:title="@string/slim" />
+    <item
+        android:id="@+id/menu_reset"
+        android:title="@string/reset" />
+</menu>

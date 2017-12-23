@@ -44,6 +44,7 @@ class GraffitiView(private val activity: GraffitiActivity, private val image: Bi
         mPaint.strokeCap = Paint.Cap.ROUND
         mPaint.isAntiAlias = true
         mPaint.isDither = true
+        mPaint.color = Color.WHITE
     }
 
     private fun Bitmap.resize(): Bitmap {
@@ -79,7 +80,7 @@ class GraffitiView(private val activity: GraffitiActivity, private val image: Bi
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (mPaint.color == Color.BLACK) return false
+        if (mPaint.color == Color.WHITE) return false
         if (event == null) return false
         val x = event.x
         val y = event.y
