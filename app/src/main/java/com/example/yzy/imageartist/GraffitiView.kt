@@ -12,7 +12,7 @@ import org.opencv.imgproc.Imgproc
 /**
  * Created by poiii on 2017/12/23.
  */
-class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: Bitmap) : View(activity) {
+class GraffitiView(private val activity: GraffitiActivity, private val image: Bitmap) : View(activity) {
     companion object {
         const val NOTHING = 0
         const val RED = Color.RED
@@ -22,6 +22,7 @@ class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: 
         const val WHITE = Color.WHITE
     }
 
+    private var mBitmap = image
     private lateinit var mCanvas: Canvas
     //private lateinit var mCanvas: Canvas
     private val mBitmapPaint = Paint(Paint.DITHER_FLAG)
@@ -60,8 +61,6 @@ class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: 
     }
 
     override fun onDraw(canvas: Canvas?) {
-        // TODO: should modify left and top
-
         if (!isResized) {
             mBitmap = mBitmap.resize()
             left = (width - mBitmap.width) / 2.0f
@@ -80,6 +79,7 @@ class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: 
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (mPaint.color == Color.BLACK) return false
         if (event == null) return false
         val x = event.x
         val y = event.y
@@ -142,5 +142,12 @@ class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: 
 
     fun setPaintColor(color: Int) {
         mPaint.color = color
+    }
+
+    fun reset() {
+        mBitmap = image
+        mCanvas = Canvas(mBitmap)
+        isResized = false
+        invalidate()
     }
 }

@@ -11,12 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--com.example.yzy.imageartist.GraffitiView
-            android:id="@+id/graffiti_photo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/image_in_graffiti_activity" /-->
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -35,7 +29,8 @@
 
             <ImageView
                 android:id="@+id/color_red"
-                android:layout_height="match_parent"
+                android:background="@color/red"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:contentDescription="@string/graffiti_color_red"
                 android:gravity="center"
@@ -44,7 +39,8 @@
 
             <ImageView
                 android:id="@+id/color_blue"
-                android:layout_height="match_parent"
+                android:background="@color/blue"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:contentDescription="@string/graffiti_color_blue"
                 android:gravity="center"
@@ -53,7 +49,8 @@
 
             <ImageView
                 android:id="@+id/color_green"
-                android:layout_height="match_parent"
+                android:background="@color/green"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:contentDescription="@string/graffiti_color_green"
                 android:gravity="center"
@@ -62,7 +59,8 @@
 
             <ImageView
                 android:id="@+id/color_gray"
-                android:layout_height="match_parent"
+                android:background="@color/gray"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:contentDescription="@string/graffiti_color_gray"
                 android:gravity="center"
@@ -70,10 +68,11 @@
                 app:layout_gravity="fill" />
 
             <ImageView
-                android:id="@+id/color_white"
-                android:layout_height="match_parent"
+                android:id="@+id/color_black"
+                android:background="@color/black"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
-                android:contentDescription="@string/graffiti_color_white"
+                android:contentDescription="@string/graffiti_color_black"
                 android:gravity="center"
                 app:layout_columnWeight="1"
                 app:layout_gravity="fill" />

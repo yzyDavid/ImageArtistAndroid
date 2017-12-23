@@ -40,6 +40,6 @@
     <string name="graffiti_color_blue">Graffiti color blue</string>
     <string name="graffiti_color_green">Graffiti color green</string>
     <string name="graffiti_color_gray">Graffiti color gray</string>
-    <string name="graffiti_color_white">Graffiti color white</string>
+    <string name="graffiti_color_black">Graffiti color black</string>
     <string name="graffiti">涂鸦</string>
 </resources>
