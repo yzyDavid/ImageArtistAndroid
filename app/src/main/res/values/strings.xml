@@ -35,4 +35,11 @@
     <string name="_5">5</string>
     <string name="_6">6</string>
     <string name="_7">7</string>
+    <string name="image_in_graffiti_activity">Image in graffiti activity</string>
+    <string name="graffiti_color_red">Graffiti color red</string>
+    <string name="graffiti_color_blue">Graffiti color blue</string>
+    <string name="graffiti_color_green">Graffiti color green</string>
+    <string name="graffiti_color_gray">Graffiti color gray</string>
+    <string name="graffiti_color_black">Graffiti color black</string>
+    <string name="graffiti">涂鸦</string>
 </resources>

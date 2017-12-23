@@ -119,7 +119,7 @@ class EditorActivity : AppCompatActivity(), Formatter {
             mDialog.dismiss()
         }
         mFrameText.setOnClickListener {
-            val intent = Intent(this, FrameActivity::class.java)
+            val intent = Intent(this, GraffitiActivity::class.java)
             startActivity(intent)
             mDialog.dismiss()
         }
