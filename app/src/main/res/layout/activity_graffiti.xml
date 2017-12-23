@@ -11,11 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <!--com.example.yzy.imageartist.GraffitiView
             android:id="@+id/graffiti_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/image_in_graffiti_activity" />
+            android:contentDescription="@string/image_in_graffiti_activity" /-->
 
     </RelativeLayout>
 
