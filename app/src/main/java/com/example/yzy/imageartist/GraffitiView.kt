@@ -4,11 +4,15 @@ import android.content.Context
 import android.graphics.*
 import android.view.MotionEvent
 import android.view.View
+import com.example.yzy.imageartist.Utils.toMat
+import com.example.yzy.imageartist.Utils.toBitmap
+import org.opencv.core.Size
+import org.opencv.imgproc.Imgproc
 
 /**
  * Created by poiii on 2017/12/23.
  */
-class GraffitiView(private val activity: GraffitiActivity, private val mBitmap: Bitmap) : View(activity) {
+class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: Bitmap) : View(activity) {
     companion object {
         const val NOTHING = 0
         const val RED = Color.RED
@@ -18,13 +22,15 @@ class GraffitiView(private val activity: GraffitiActivity, private val mBitmap: 
         const val WHITE = Color.WHITE
     }
 
-    private var mCanvas = Canvas(mBitmap)
+    private lateinit var mCanvas: Canvas
+    //private lateinit var mCanvas: Canvas
     private val mBitmapPaint = Paint(Paint.DITHER_FLAG)
     private var mPaint: Paint = Paint()
     private var mPath: Path? = null
     private var mX = 0.0f
     private var mY = 0.0f
     private final val TOUCH_TOLERANCE = 4
+    private var isResized = false
 
     init {
         mPaint.style = Paint.Style.STROKE
@@ -34,8 +40,30 @@ class GraffitiView(private val activity: GraffitiActivity, private val mBitmap: 
         mPaint.isDither = true
     }
 
+    private fun Bitmap.resize(): Bitmap {
+        val imageWidth = width.toDouble()
+        val imageHeight = height.toDouble()
+        val canvasWidth = this@GraffitiView.measuredWidth.toDouble()
+        val canvasHeight = this@GraffitiView.measuredHeight.toDouble()
+        val mat = this.toMat()
+        if (imageWidth / imageHeight > canvasWidth / canvasHeight) {
+            Imgproc.resize(mat, mat, Size(canvasWidth, canvasWidth / imageWidth * imageHeight))
+        } else {
+            Imgproc.resize(mat, mat, Size(canvasHeight / imageHeight * imageWidth, canvasHeight))
+        }
+        return mat.toBitmap()
+    }
+
     override fun onDraw(canvas: Canvas?) {
         // TODO: should modify left and top
+
+        if (!isResized) {
+            mBitmap = mBitmap.resize()
+            mCanvas = Canvas(mBitmap)
+            WorkspaceManager.bitmap = mBitmap
+            isResized = true
+        }
+
         canvas!!.drawBitmap(mBitmap, 0.0f, 0.0f, mBitmapPaint)
         if (mPath != null) {
             canvas.drawPath(mPath, mPaint)
