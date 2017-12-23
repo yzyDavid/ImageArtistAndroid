@@ -27,10 +27,15 @@ class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: 
     private val mBitmapPaint = Paint(Paint.DITHER_FLAG)
     private var mPaint: Paint = Paint()
     private var mPath: Path? = null
+    private var mBitmapPath: Path? = null
     private var mX = 0.0f
     private var mY = 0.0f
     private final val TOUCH_TOLERANCE = 4
     private var isResized = false
+    private var left = 0.0f
+    private var right = 0.0f
+    private var top = 0.0f
+    private var bottom = 0.0f
 
     init {
         mPaint.style = Paint.Style.STROKE
@@ -59,12 +64,16 @@ class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: 
 
         if (!isResized) {
             mBitmap = mBitmap.resize()
+            left = (width - mBitmap.width) / 2.0f
+            right = mBitmap.width + left
+            top = (height - mBitmap.height) / 2.0f
+            bottom = mBitmap.height + top
             mCanvas = Canvas(mBitmap)
             WorkspaceManager.bitmap = mBitmap
             isResized = true
         }
 
-        canvas!!.drawBitmap(mBitmap, 0.0f, 0.0f, mBitmapPaint)
+        canvas!!.drawBitmap(mBitmap, left, top, mBitmapPaint)
         if (mPath != null) {
             canvas.drawPath(mPath, mPaint)
         }
@@ -99,15 +108,21 @@ class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: 
 
     private fun touchDown(x: Float, y: Float) {
         mPath = Path()
+        mBitmapPath = Path()
         mPath!!.moveTo(x, y)
+        mBitmapPath!!.moveTo(x - left, y - top)
         mX = x
         mY = y
     }
 
     private fun touchUp() {
         mPath!!.lineTo(mX, mY)
-        mCanvas.drawPath(mPath, mPaint)
+        mBitmapPath!!.lineTo(mX - left, mY - top)
+        mCanvas.drawPath(mBitmapPath, mPaint)
         mPath = null
+        mBitmapPath = null
+        mX = 0.0f
+        mY = 0.0f
     }
 
     private fun touchMove(x: Float, y: Float) {
@@ -115,6 +130,7 @@ class GraffitiView(private val activity: GraffitiActivity, private var mBitmap: 
         val dy = Math.abs(y - mY)
         if (dx >= TOUCH_TOLERANCE && dy >= TOUCH_TOLERANCE) {
             mPath!!.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
+            mBitmapPath!!.quadTo(mX - left, mY - top, (x + mX) / 2 - left, (y + mY) / 2 - top)
             mX = x
             mY = y
         }
