@@ -25,7 +25,7 @@ class EditorActivity : AppCompatActivity(), Formatter {
     private lateinit var mDialog: Dialog
     private lateinit var mToolText: TextView
     private lateinit var mColorText: TextView
-    private lateinit var mFrameText: TextView
+    private lateinit var mGraffitiText: TextView
     private lateinit var mModifyText: TextView
     private lateinit var mShareText: TextView
     private lateinit var mSaveText: TextView
@@ -101,7 +101,7 @@ class EditorActivity : AppCompatActivity(), Formatter {
         mDialog = Dialog(this, R.style.ActionSheetDialogAnimation)
         inflate = LayoutInflater.from(this).inflate(R.layout.tool_selection, null)
         mColorText = inflate.findViewById(R.id.color_text)
-        mFrameText = inflate.findViewById(R.id.frame_text)
+        mGraffitiText = inflate.findViewById(R.id.graffiti_text)
         mModifyText = inflate.findViewById(R.id.modify_text)
         mDialog.setContentView(inflate)
         val dialogWindow: Window = mDialog.window
@@ -118,7 +118,7 @@ class EditorActivity : AppCompatActivity(), Formatter {
             startActivity(intent)
             mDialog.dismiss()
         }
-        mFrameText.setOnClickListener {
+        mGraffitiText.setOnClickListener {
             val intent = Intent(this, GraffitiActivity::class.java)
             startActivity(intent)
             mDialog.dismiss()

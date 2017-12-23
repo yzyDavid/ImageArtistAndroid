@@ -16,12 +16,12 @@
         android:textSize="17dp"
         android:text="@string/choose_color"/>
     <TextView
-        android:id="@+id/frame_text"
+        android:id="@+id/graffiti_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:textSize="17dp"
-        android:text="@string/frame"/>
+        android:text="@string/graffiti"/>
     <TextView
         android:id="@+id/modify_text"
         android:layout_width="wrap_content"
